@@ -62,8 +62,9 @@ void readkeyboard(){
   //NOTE: the values used above are all halfway between the value obtained with each keypress in previous test sketch 
    
    while (keyboardValue > 25) {
-     if (keypressed!=ENTER_KEY)
-      Serial.print(keypressed);
+     if (keypressed!=ENTER_KEY){
+      Serial.println(keyboardValue+"   "+keypressed);
+     }
      else Serial.println();
      delay (100);
      keyboardValue = analogRead(keyboardPin); // read the value (0-1023)
