@@ -74,7 +74,7 @@ void readkeyboard(){
     int temp = composedNumber;
     composedNumber*=10;
     composedNumber+=keypressed;
-    if (temp>MAX_NUMBER || temp<0){
+    if (composedNumber>MAX_NUMBER || composedNumber<0){
       composedNumber=temp;
       Serial.println("Error: Out of bounds!");
     }
