@@ -1,9 +1,10 @@
+#define MAX_NUMBER 25000
 #define ENTER_KEY 41
 #define DEL_KEY 42
 #define NOT_PRESSED_THRESHOLD 25
 int keypressed = 0;
 int keyboardPin = 7;    // Analog input pin that the keypad is attached to
-int keyboardValue = 0;   // value read from the keyboard
+char keyboardValue = 0;   // value read from the keyboard
 int composedNumber=0;
 // variable to store the length of received bytes
 int incomingLen = 0;
@@ -70,8 +71,13 @@ void readkeyboard(){
   
   //NOTE: the values used above are all halfway between the value obtained with each keypress in previous test sketch 
   if (analogRead(keyboardPin) > NOT_PRESSED_THRESHOLD){
+    int temp = composedNumber;
     composedNumber*=10;
     composedNumber+=keypressed;
+    if (temp>MAX_NUMBER || temp<0){
+      composedNumber=temp;
+      Serial.println("Error: Out of bounds!");
+    }
     if (keypressed==ENTER_KEY || keypressed==DEL_KEY) //both conditions clear the current number
       composedNumber=0;
     Serial.println(composedNumber);
