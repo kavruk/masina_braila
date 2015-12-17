@@ -44,7 +44,14 @@ void loop()
 //read the keyboard routine
 void readkeyboard(){
      keyboardValue = analogRead(keyboardPin); // read the value (0-1023)
-   if (keyboardValue <25){keypressed = 0;}
+   if (keyboardValue <25){ //minimum press threshold
+      delay(30);           //30ms delay for debounde
+      keyboardValue=0;
+      for(char i=0;i<5;i++) //read 5 samples 
+        keyboardValue+=analogRead(keyboardPin);
+      keyboardValue=keyboardValue/5;  //calculate 5 sample average
+   }
+     
  if ((keyboardValue >70) && (keyboardValue < 85)){keypressed = 41;}
  if ((keyboardValue >145) && (keyboardValue < 156)){keypressed = 7;}
  if ((keyboardValue >220) && (keyboardValue < 228)){keypressed = 4;}
@@ -61,12 +68,10 @@ void readkeyboard(){
   
   //NOTE: the values used above are all halfway between the value obtained with each keypress in previous test sketch 
    
-   while (keyboardValue > 25) {
-     if (keypressed!=ENTER_KEY){
+  while (keyboardValue > 25) { //wait until key no longer pressed
+   }
+  if (keypressed!=ENTER_KEY){
       Serial.println(keyboardValue+"   "+keypressed);
-     }
-     else Serial.println();
-     delay (100);
-     keyboardValue = analogRead(keyboardPin); // read the value (0-1023)
-   }//wait until key no longer being pressed before continuing
+    }
+  else Serial.println();
 }
