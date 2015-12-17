@@ -1,8 +1,10 @@
 #define ENTER_KEY 41
+#define DEL_KEY 42
+#define NOT_PRESSED_THRESHOLD 25
 int keypressed = 0;
 int keyboardPin = 7;    // Analog input pin that the keypad is attached to
 int keyboardValue = 0;   // value read from the keyboard
-
+int composedNumber=0;
 // variable to store the length of received bytes
 int incomingLen = 0;
 // variable to store the actual bytes read from the receive buffer
@@ -44,7 +46,7 @@ void loop()
 //read the keyboard routine
 void readkeyboard(){
      keyboardValue = analogRead(keyboardPin); // read the value (0-1023)
-   if (keyboardValue <25){ //minimum press threshold
+   if (keyboardValue <NOT_PRESSED_THRESHOLD){ //minimum press threshold
       delay(30);           //30ms delay for debounde
       keyboardValue=0;
       for(char i=0;i<5;i++) //read 5 samples 
@@ -52,7 +54,7 @@ void readkeyboard(){
       keyboardValue=keyboardValue/5;  //calculate 5 sample average
    }
      
- if ((keyboardValue >70) && (keyboardValue < 85)){keypressed = 41;}
+ if ((keyboardValue >70) && (keyboardValue < 85)){keypressed = ENTER_KEY;}
  if ((keyboardValue >145) && (keyboardValue < 156)){keypressed = 7;}
  if ((keyboardValue >220) && (keyboardValue < 228)){keypressed = 4;}
  if ((keyboardValue >280) && (keyboardValue < 290)){keypressed = 1;}
@@ -60,17 +62,25 @@ void readkeyboard(){
  if ((keyboardValue >420) && (keyboardValue < 430)){keypressed = 8;}
  if ((keyboardValue >490) && (keyboardValue < 500)){keypressed = 5;}
  if ((keyboardValue >570) && (keyboardValue < 580)){keypressed = 2;}
- if ((keyboardValue >660) && (keyboardValue < 670)){keypressed = 42;}
+ if ((keyboardValue >660) && (keyboardValue < 670)){keypressed = DEL_KEY;}
  if ((keyboardValue >750) && (keyboardValue < 770)){keypressed = 9;}
  if ((keyboardValue >870) && (keyboardValue < 890)){keypressed = 6;}
  if ((keyboardValue >1010) && (keyboardValue < 1024)){keypressed = 3;}
  
   
   //NOTE: the values used above are all halfway between the value obtained with each keypress in previous test sketch 
-  if (analogRead(keyboardPin) > 25)
-    Serial.println(keypressed); 
-  while (analogRead(keyboardPin) > 25) { //wait until key no longer pressed
-   }
+  if (analogRead(keyboardPin) > NOT_PRESSED_THRESHOLD){
+    composedNumber*=10;
+    composedNumber+=keypressed;
+    if (keypressed==ENTER_KEY || keypressed==DEL_KEY) //both conditions clear the current number
+      composedNumber=0;
+    Serial.println(composedNumber);
+     
+  }
+  while (analogRead(keyboardPin) > NOT_PRESSED_THRESHOLD) { 
+    //wait until key no longer pressed
+  }
+   
    
   
 }
