@@ -4,7 +4,7 @@
 #define NOT_PRESSED_THRESHOLD 25
 int keypressed = 0;
 int keyboardPin = 7;    // Analog input pin that the keypad is attached to
-char keyboardValue = 0;   // value read from the keyboard
+int keyboardValue = 0;   // value read from the keyboard
 int composedNumber=0;
 // variable to store the length of received bytes
 int incomingLen = 0;
