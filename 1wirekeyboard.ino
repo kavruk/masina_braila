@@ -67,7 +67,8 @@ void readkeyboard(){
  
   
   //NOTE: the values used above are all halfway between the value obtained with each keypress in previous test sketch 
-  Serial.println(keypressed); 
+  if (analogRead(keyboardPin) > 25)
+    Serial.println(keypressed); 
   while (analogRead(keyboardPin) > 25) { //wait until key no longer pressed
    }
    
