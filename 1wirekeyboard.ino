@@ -74,10 +74,10 @@ void readkeyboard(){
     int temp = composedNumber;
     composedNumber*=10;
     composedNumber+=keypressed;
-//    if (temp>MAX_NUMBER || temp<0){
-//      composedNumber=temp;
-//      Serial.println("Error: Out of bounds!");
-//    }
+    if (temp>MAX_NUMBER || temp<0){
+      composedNumber=temp;
+      Serial.println("Error: Out of bounds!");
+    }
     if (keypressed==ENTER_KEY || keypressed==DEL_KEY) //both conditions clear the current number
       composedNumber=0;
     Serial.println(composedNumber);
