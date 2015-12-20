@@ -1,17 +1,28 @@
 #define MAX_NUMBER 25000
 #define ENTER_KEY 41
 #define DEL_KEY 42
-#define NOT_PRESSED_THRESHOLD 25
+#define NOT_PRESSED_THRESHOLD 252
 int keypressed = 0;
 int keyboardPin = 7;    // Analog input pin that the keypad is attached to
 int keyboardValue = 0;   // value read from the keyboard
 int composedNumber=0;
+#define DELAY_TIME 1
+#include <LiquidCrystal.h>
+LiquidCrystal lcd(A0, A1, A2, A3, A4, A5);
+#define step_pin 9 // Pin 3 connected to Steps pin on EasyDriver
+#define dir_pin 10   // Pin 2 connected to Direction pin
+#define SLEEP 7     // Pin 7 connected to SLEEP pin
+#define ZERO_POS 2//pin punct 0 
+#define MAX_STEPS  27000//se va inmulti cu 1000
+int direction;    // Variable to set Rotation (CW-CCW) of the motor
+int currentPos=0,targetPos=0;
 // variable to store the length of received bytes
 int incomingLen = 0;
 // variable to store the actual bytes read from the receive buffer
 byte readLen = 0;
 // variable to store incoming bytes of ascii chars
 char buffer[64];
+
 
 int strToInt(char AStr[], byte ALen)
 {
@@ -32,19 +43,43 @@ int strToInt(char AStr[], byte ALen)
   return Result;
 }
 void setup() {
+   pinMode(dir_pin, OUTPUT);
+   pinMode(step_pin, OUTPUT);
+   pinMode(SLEEP, OUTPUT);
    Serial.begin(9600);
-}
  
-void loop() 
-{                           
-                           
- readkeyboard(); //get the value of key being pressed "keypressed" i.e. 0-9
+  lcd.begin(20, 4);
+  lcd.setCursor(1,0);
+  lcd.print("Magnetic Meter");
+  lcd.setCursor(0,1);
+  lcd.print("RaceAutoElectro");
+  delay (2000);
  
+  Serial.setTimeout(2000);
+  digitalWrite(SLEEP, HIGH);  // Wake up EasyDriver
+  delay(5);  // Wait for EasyDriver wake up
+   
+ 
+
+
+
+   while (!digitalRead(ZERO_POS)){
+    digitalWrite(dir_pin,HIGH);
+    digitalWrite(step_pin, HIGH);
+    delay(1);
+    digitalWrite(step_pin, LOW);
+    delay(1);   //delay for reference point - BACK
+   }
+   
+    while (digitalRead(ZERO_POS)){
+    digitalWrite(dir_pin,LOW);
+    digitalWrite(step_pin, HIGH);
+    delay(1);
+    digitalWrite(step_pin, LOW);
+    delay(1);   //delay for reference point - FORWARD    ---0 REFERENCE---
+    
+   }
 }
-
-
-
-//read the keyboard routine
 void readkeyboard(){
      keyboardValue = analogRead(keyboardPin); // read the value (0-1023)
    if (keyboardValue <NOT_PRESSED_THRESHOLD){ //minimum press threshold
@@ -77,16 +112,75 @@ void readkeyboard(){
     if (composedNumber>MAX_NUMBER || composedNumber<0){
       composedNumber=temp;
       Serial.println("Error: Out of bounds!");
-    }
-    if (keypressed==ENTER_KEY || keypressed==DEL_KEY) //both conditions clear the current number
+      }
+    lcd.clear();
+    lcd.print(composedNumber);
+    if (keypressed==DEL_KEY)                  //clear the current number
       composedNumber=0;
-    Serial.println(composedNumber);
-     
+    if(keypressed==ENTER_KEY) {               //set the target to current number
+      targetPos=(composedNumber-2550)*1.3333;
+      Serial.print("ENTER pressed, target set to"+targetPos);
+    }
+    }
+      
+  while (analogRead(keyboardPin) > NOT_PRESSED_THRESHOLD) { //wait until key no longer pressed
   }
-  while (analogRead(keyboardPin) > NOT_PRESSED_THRESHOLD) { 
-    //wait until key no longer pressed
-  }
-   
-   
-  
+
 }
+void loop() {
+  incomingLen = Serial.available();
+  readkeyboard(); //get the value of key being pressed "keypressed" i.e. 0-9
+  if (incomingLen==0)
+  {
+    // if there is no data in serial input buffer, let's sleep
+    // for a while
+    delay(100);
+  }
+  else
+  {
+    // read the data in serial input buffer
+    readLen = Serial.readBytes(buffer, incomingLen);
+    if (readLen!=0)
+    {
+      // convert the ascii string number into correct binary form
+      targetPos=(strToInt(buffer, readLen)-2550)*1.3333;
+     
+      // notify sender of the entered value
+      Serial.print("Entered value: ");
+      Serial.println(targetPos/1.333+2550);
+       lcd.clear();
+      lcd.print ("value:");
+      lcd.setCursor(6,0);
+      lcd.print (targetPos/1.333+2550, DEC);
+
+     
+     
+      // Print extra empty line
+      Serial.println("");
+    }
+      Serial.println("empty");
+   
+  }
+
+  while (targetPos>0 && targetPos<MAX_STEPS && !digitalRead(ZERO_POS) && currentPos!=targetPos) {
+    if (currentPos>targetPos) {
+      
+      digitalWrite(dir_pin, HIGH);  // (HIGH = anti-clockwise / LOW = clockwise)
+      digitalWrite(step_pin, HIGH);
+     // delay(1);
+      digitalWrite(step_pin, LOW);
+      //delay(1);
+      for (int i=0;i<DELAY_TIME;i++) analogRead(A6);
+      currentPos--;
+    }
+    if (currentPos<targetPos) {
+      digitalWrite(dir_pin, LOW);  // (HIGH = anti-clockwise / LOW = clockwise)
+      digitalWrite(step_pin, HIGH);
+      //delay(1);
+      digitalWrite(step_pin, LOW);
+     //delay(1);
+     for (int i=0;i<DELAY_TIME;i++) analogRead(A6);
+      currentPos++;
+    }
+  } 
+ }
