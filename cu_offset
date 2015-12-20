@@ -89,7 +89,7 @@ void readkeyboard(){
       keyboardValue=keyboardValue/5;  //calculate 5 sample average
    }
      
- if ((keyboardValue >70) && (keyboardValue < 85)){keypressed = ENTER_KEY;}
+ if ((keyboardValue >70) && (keyboardValue < 85)){keypressed = ENTER_KEY;Serial.println("ENTER pressed");}
  if ((keyboardValue >145) && (keyboardValue < 156)){keypressed = 7;}
  if ((keyboardValue >220) && (keyboardValue < 228)){keypressed = 4;}
  if ((keyboardValue >280) && (keyboardValue < 290)){keypressed = 1;}
@@ -120,7 +120,7 @@ void readkeyboard(){
     }
     if(keypressed==ENTER_KEY) {               //set the target to current number
       //targetPos=(composedNumber-2550)*1.3333;
-      Serial.println("ENTER pressed, target set to");
+      Serial.println("ENTER pressed");
       //Serial.println(targetPos);
     }
     }
