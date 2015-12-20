@@ -109,16 +109,17 @@ void readkeyboard(){
       }
     lcd.clear();
     lcd.print(composedNumber);
-    if(keypressed==41) {               //set the target to current number
-      //targetPos=(composedNumber-2550)*1.3333;
+    
+   if (ENTER_KEY==keypressed)  {                //clear the current number
       Serial.println("ENTER pressed");
-      //Serial.println(targetPos);
+    
     }
     
     if (DEL_KEY==keypressed)  {                //clear the current number
       Serial.println("DELETE pressed");
       composedNumber=0;
     }
+    
     }
       
   while (analogRead(keyboardPin) > NOT_PRESSED_THRESHOLD) { //wait until key no longer pressed
