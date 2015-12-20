@@ -77,7 +77,6 @@ void setup() {
     delay(1);
     digitalWrite(step_pin, LOW);
     delay(1);   //delay for reference point - FORWARD    ---0 REFERENCE---
-    
    }
 }
 void readkeyboard(){
@@ -115,12 +114,14 @@ void readkeyboard(){
       }
     lcd.clear();
     lcd.print(composedNumber);
-    if (keypressed==DEL_KEY)                  //clear the current number
+    if (DEL_KEY==keypressed)  {                //clear the current number
+      Serial.println("DELETE pressed");
       composedNumber=0;
+    }
     if(keypressed==ENTER_KEY) {               //set the target to current number
-      targetPos=(composedNumber-2550)*1.3333;
+      //targetPos=(composedNumber-2550)*1.3333;
       Serial.println("ENTER pressed, target set to");
-      Serial.println(targetPos);
+      //Serial.println(targetPos);
     }
     }
       
@@ -153,14 +154,10 @@ void loop() {
       lcd.print ("value:");
       lcd.setCursor(6,0);
       lcd.print (targetPos/1.333+2550, DEC);
-
-     
-     
       // Print extra empty line
       Serial.println("");
     }
       Serial.println("empty");
-   
   }
 
   while (targetPos>0 && targetPos<MAX_STEPS && !digitalRead(ZERO_POS) && currentPos!=targetPos) {
