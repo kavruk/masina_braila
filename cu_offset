@@ -58,11 +58,6 @@ void setup() {
   Serial.setTimeout(2000);
   digitalWrite(SLEEP, HIGH);  // Wake up EasyDriver
   delay(5);  // Wait for EasyDriver wake up
-   
- 
-
-
-
    while (!digitalRead(ZERO_POS)){
     digitalWrite(dir_pin,HIGH);
     digitalWrite(step_pin, HIGH);
@@ -89,7 +84,7 @@ void readkeyboard(){
       keyboardValue=keyboardValue/5;  //calculate 5 sample average
    }
      
- if ((keyboardValue >70) && (keyboardValue < 90)){keypressed = ENTER_KEY;Serial.println("ENTER pressed");}
+ if ((keyboardValue >70) && (keyboardValue < 90)){keypressed = ENTER_KEY;}
  if ((keyboardValue >145) && (keyboardValue < 156)){keypressed = 7;}
  if ((keyboardValue >220) && (keyboardValue < 228)){keypressed = 4;}
  if ((keyboardValue >280) && (keyboardValue < 290)){keypressed = 1;}
@@ -119,9 +114,9 @@ void readkeyboard(){
       composedNumber=0;
     }
     if(keypressed==ENTER_KEY) {               //set the target to current number
-      //targetPos=(composedNumber-2550)*1.3333;
+      targetPos=(composedNumber-2550)*1.3333;
       Serial.println("ENTER pressed");
-      //Serial.println(targetPos);
+      Serial.println(targetPos);
     }
     }
       
@@ -162,7 +157,6 @@ void loop() {
 
   while (targetPos>0 && targetPos<MAX_STEPS && !digitalRead(ZERO_POS) && currentPos!=targetPos) {
     if (currentPos>targetPos) {
-      
       digitalWrite(dir_pin, HIGH);  // (HIGH = anti-clockwise / LOW = clockwise)
       digitalWrite(step_pin, HIGH);
      // delay(1);
@@ -177,7 +171,8 @@ void loop() {
       //delay(1);
       digitalWrite(step_pin, LOW);
      //delay(1);
-     for (int i=0;i<DELAY_TIME;i++) analogRead(A6);
+     for (int i=0;i<DELAY_TIME;i++) 
+      analogRead(A6);
       currentPos++;
     }
   } 
