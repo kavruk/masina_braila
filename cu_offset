@@ -1,21 +1,12 @@
-// maxim 25000 
-//min 2551
-
-
-
-#include <Wire.h>
+#define MAX_NUMBER 25000
+#define ENTER_KEY 41
+#define DEL_KEY 42
+#define NOT_PRESSED_THRESHOLD 252
+int keypressed = 0;
+int keyboardPin = 7;    // Analog input pin that the keypad is attached to
+int keyboardValue = 0;   // value read from the keyboard
+int composedNumber=0;
 #define DELAY_TIME 1
-#include <OnewireKeypad.h>
-char KEYS[]= {
-  '7','8','9','+','a','b',   //'A',
-  '4','5','6','c','<','d',   //'B',
-  '1','2','3','e','f','g',   //'C'
-  'Z','0','C','.','h','j',   //'D',
-  '4','o','6','*','k','l',   //'E',
-  'z','x','c','v','-','q',   //'F'
-                }; 
-OnewireKeypad <Print, 36 > KP2(Serial, KEYS, 6, 6, A6, 4700, 1000 );
-
 #include <LiquidCrystal.h>
 LiquidCrystal lcd(A0, A1, A2, A3, A4, A5);
 #define step_pin 9 // Pin 3 connected to Steps pin on EasyDriver
@@ -89,9 +80,50 @@ void setup() {
     
    }
 }
+void readkeyboard(){
+     keyboardValue = analogRead(keyboardPin); // read the value (0-1023)
+   if (keyboardValue <NOT_PRESSED_THRESHOLD){ //minimum press threshold
+      delay(30);           //30ms delay for debounde
+      keyboardValue=0;
+      for(char i=0;i<5;i++) //read 5 samples 
+        keyboardValue+=analogRead(keyboardPin);
+      keyboardValue=keyboardValue/5;  //calculate 5 sample average
+   }
+     
+ if ((keyboardValue >70) && (keyboardValue < 85)){keypressed = ENTER_KEY;}
+ if ((keyboardValue >145) && (keyboardValue < 156)){keypressed = 7;}
+ if ((keyboardValue >220) && (keyboardValue < 228)){keypressed = 4;}
+ if ((keyboardValue >280) && (keyboardValue < 290)){keypressed = 1;}
+ if ((keyboardValue >350) && (keyboardValue < 360)){keypressed = 0;}
+ if ((keyboardValue >420) && (keyboardValue < 430)){keypressed = 8;}
+ if ((keyboardValue >490) && (keyboardValue < 500)){keypressed = 5;}
+ if ((keyboardValue >570) && (keyboardValue < 580)){keypressed = 2;}
+ if ((keyboardValue >660) && (keyboardValue < 670)){keypressed = DEL_KEY;}
+ if ((keyboardValue >750) && (keyboardValue < 770)){keypressed = 9;}
+ if ((keyboardValue >870) && (keyboardValue < 890)){keypressed = 6;}
+ if ((keyboardValue >1010) && (keyboardValue < 1024)){keypressed = 3;}
  
+  
+  //NOTE: the values used above are all halfway between the value obtained with each keypress in previous test sketch 
+  if (analogRead(keyboardPin) > NOT_PRESSED_THRESHOLD){
+    int temp = composedNumber;
+    composedNumber*=10;
+    composedNumber+=keypressed;
+    if (composedNumber>MAX_NUMBER || composedNumber<0){
+      composedNumber=temp;
+      Serial.println("Error: Out of bounds!");
+      }
+    if (keypressed==ENTER_KEY || keypressed==DEL_KEY) //both conditions clear the current number
+      composedNumber=0;
+    Serial.println(composedNumber);  
+    }
+  while (analogRead(keyboardPin) > NOT_PRESSED_THRESHOLD) { //wait until key no longer pressed
+  }
+  targetPos=(composedNumber-2550)*1.3333;
+}
 void loop() {
   incomingLen = Serial.available();
+  readkeyboard(); //get the value of key being pressed "keypressed" i.e. 0-9
   if (incomingLen==0)
   {
     // if there is no data in serial input buffer, let's sleep
