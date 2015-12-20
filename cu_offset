@@ -109,14 +109,15 @@ void readkeyboard(){
       }
     lcd.clear();
     lcd.print(composedNumber);
-    if (DEL_KEY==keypressed)  {                //clear the current number
-      Serial.println("DELETE pressed");
-      composedNumber=0;
-    }
     if(keypressed==41) {               //set the target to current number
       //targetPos=(composedNumber-2550)*1.3333;
       Serial.println("ENTER pressed");
       //Serial.println(targetPos);
+    }
+    
+    if (DEL_KEY==keypressed)  {                //clear the current number
+      Serial.println("DELETE pressed");
+      composedNumber=0;
     }
     }
       
