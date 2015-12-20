@@ -119,7 +119,8 @@ void readkeyboard(){
       composedNumber=0;
     if(keypressed==ENTER_KEY) {               //set the target to current number
       targetPos=(composedNumber-2550)*1.3333;
-      Serial.print("ENTER pressed, target set to"+targetPos);
+      Serial.println("ENTER pressed, target set to");
+      Serial.println(targetPos);
     }
     }
       
