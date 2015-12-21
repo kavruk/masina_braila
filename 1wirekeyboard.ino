@@ -50,7 +50,7 @@ void setup() {
 }
 void readkeyboard(){
      keyboardValue = analogRead(keyboardPin); // read the value (0-1023)
-  if (keyboardValue > NOT_PRESSED_THRESHOLD){ //minimum press threshold
+  if (keyboardValue < NOT_PRESSED_THRESHOLD){ //minimum press threshold
     delay(30);           //30ms delay for debounde
     keyboardValue=0;
     for(char i=0;i<5;i++) //read 5 samples 
@@ -70,8 +70,6 @@ void readkeyboard(){
   if ((keyboardValue >750) && (keyboardValue < 770)){keypressed = 9;}
   if ((keyboardValue >870) && (keyboardValue < 890)){keypressed = 6;}
   if ((keyboardValue >1010) && (keyboardValue < 1024)){keypressed = 3;}
-  Serial.print(keyboardValue);
-  Serial.print(":");
   Serial.println(keypressed);
   //if (255!=keypressed) {
     //NOTE: the values used above are all halfway between the value obtained with each keypress in previous test sketch 
