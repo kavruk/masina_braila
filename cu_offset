@@ -84,7 +84,7 @@ void readkeyboard(){
         keyboardValue+=analogRead(keyboardPin);
     keyboardValue=keyboardValue/5;  //calculate 5 sample average
   }
-  keyboardValue=NO_KEY_PRESSED;    
+  keypressed=NO_KEY_PRESSED;    
   if ((keyboardValue >70) && (keyboardValue < 90)){keypressed = ENTER_KEY;}
   if ((keyboardValue >145) && (keyboardValue < 156)){keypressed = 7;}
   if ((keyboardValue >220) && (keyboardValue < 228)){keypressed = 4;}
