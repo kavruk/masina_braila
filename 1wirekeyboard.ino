@@ -66,19 +66,20 @@ void readkeyboard() {
     if ((keyboardValue >750) && (keyboardValue < 770)){keypressed = 9;}
     if ((keyboardValue >870) && (keyboardValue < 890)){keypressed = 6;}
     if ((keyboardValue >1010) && (keyboardValue < 1024)){keypressed = 3;}
-    Serial.println(keypressed);
-    //if (255!=keypressed) {
+    if (255!=keypressed) {
+      //Serial.println(keypressed);
+      int temp = composedNumber;
+      composedNumber*=10;
+      composedNumber+=keypressed;
+      if (composedNumber>MAX_NUMBER || composedNumber<0){
+        composedNumber=temp;
+        Serial.println("Error: Out of bounds!");
+      }
+      lcd.clear();
+      lcd.print(composedNumber);
+    }
   //NOTE: the values used above are all halfway between the value obtained with each keypress in previous test sketch
   //    if (analogRead(keyboardPin) > NOT_PRESSED_THRESHOLD){
-  //      int temp = composedNumber;
-  //      composedNumber*=10;
-  //      composedNumber+=keypressed;
-  //      if (composedNumber>MAX_NUMBER || composedNumber<0){
-  //        composedNumber=temp;
-  //        Serial.println("Error: Out of bounds!");
-  //      }
-  //      lcd.clear();
-  //      lcd.print(composedNumber);
   //
   //      if (ENTER_KEY==keypressed)  {                //set the target to current number
   //        Serial.println("ENTER pressed");
