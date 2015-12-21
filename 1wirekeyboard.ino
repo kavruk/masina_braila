@@ -66,7 +66,7 @@ void readkeyboard() {
     if ((keyboardValue >750) && (keyboardValue < 770)){keypressed = 9;}
     if ((keyboardValue >870) && (keyboardValue < 890)){keypressed = 6;}
     if ((keyboardValue >1010) && (keyboardValue < 1024)){keypressed = 3;}
-    if (255!=keypressed) {
+    if (keypressed>=0&&keypressed<=9) {
       //Serial.println(keypressed);
       int temp = composedNumber;
       composedNumber*=10;
@@ -78,18 +78,13 @@ void readkeyboard() {
       lcd.clear();
       lcd.print(composedNumber);
     }
-  //NOTE: the values used above are all halfway between the value obtained with each keypress in previous test sketch
-  //    if (analogRead(keyboardPin) > NOT_PRESSED_THRESHOLD){
-  //
-  //      if (ENTER_KEY==keypressed)  {                //set the target to current number
-  //        Serial.println("ENTER pressed");
-  //      }
-  //      if (DEL_KEY==keypressed)  {                //clear the current number
-  //        Serial.println("DELETE pressed");
-  //        composedNumber=0;
-  //      }
-  //    }
-  //}
+    if (ENTER_KEY==keypressed)  {                //set the target to current number
+      Serial.println("ENTER pressed");
+      }
+    if (DEL_KEY==keypressed)  {                //clear the current number
+      Serial.println("DELETE pressed");
+      composedNumber=0;
+    }
   while (analogRead(keyboardPin) > NOT_PRESSED_THRESHOLD) { //wait until key no longer pressed
   }
 
