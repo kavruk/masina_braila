@@ -75,8 +75,7 @@ void readkeyboard() {
         composedNumber=temp;
         Serial.println("Error: Out of bounds!");
       }
-      lcd.clear();
-      lcd.print(composedNumber);
+      
     }
     if (ENTER_KEY==keypressed)  {                //set the target to current number
       Serial.println("ENTER pressed");
@@ -85,6 +84,8 @@ void readkeyboard() {
       Serial.println("DELETE pressed");
       composedNumber=0;
     }
+    lcd.clear();
+      lcd.print(composedNumber);
   while (analogRead(keyboardPin) > NOT_PRESSED_THRESHOLD) { //wait until key no longer pressed
   }
 
