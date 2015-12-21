@@ -6,7 +6,8 @@
 int keypressed = 0;
 int keyboardPin = 7;    // Analog input pin that the keypad is attached to
 int keyboardValue = 0;   // value read from the keyboard
-int composedNumber = 0;
+int composedNumber[4];
+int numberOfMeasurement=0;
 #define DELAY_TIME 1
 #include <LiquidCrystal.h>
 LiquidCrystal lcd(A0, A1, A2, A3, A4, A5);
@@ -42,6 +43,8 @@ void setup() {
   lcd.begin(20, 4);
   lcd.setCursor(1, 0);
   Serial.setTimeout(2000);
+  for (int i=0;i<4;i++)
+    composedNumber[i]=0;
 }
 void readkeyboard() {
   keyboardValue = analogRead(keyboardPin); // read the value (0-1023)
@@ -52,7 +55,7 @@ void readkeyboard() {
       keyboardValue += analogRead(keyboardPin);
     keyboardValue = keyboardValue / 5; //calculate 5 sample average
   }
-  //Serial.println(keyboardValue);
+  
   keypressed=NO_KEY_PRESSED;
     if ((keyboardValue >70) && (keyboardValue < 90)){keypressed = ENTER_KEY;}
     if ((keyboardValue >145) && (keyboardValue < 156)){keypressed = 7;}
@@ -68,24 +71,26 @@ void readkeyboard() {
     if ((keyboardValue >1010) && (keyboardValue < 1024)){keypressed = 3;}
     if (keypressed>=0&&keypressed<=9) {
       //Serial.println(keypressed);
-      int temp = composedNumber;
-      composedNumber*=10;
-      composedNumber+=keypressed;
-      if (composedNumber>MAX_NUMBER || composedNumber<0){
-        composedNumber=temp;
+      int temp = composedNumber[numberOfMeasurement];
+      composedNumber[numberOfMeasurement]*=10;
+      composedNumber[numberOfMeasurement]+=keypressed;
+      if (composedNumber[numberOfMeasurement]>MAX_NUMBER || composedNumber[numberOfMeasurement]<0){   //oare trebuie bagata si valoare minima??? 20cm?
+        composedNumber[numberOfMeasurement]=temp;
         Serial.println("Error: Out of bounds!");
       }
       
     }
     if (ENTER_KEY==keypressed)  {                //set the target to current number
       Serial.println("ENTER pressed");
-      }
+      numberOfMeasurement++;
+      lcd.setCursor(1, numberOfMeasurement);
+    }
     if (DEL_KEY==keypressed)  {                //clear the current number
       Serial.println("DELETE pressed");
-      composedNumber=0;
+      composedNumber[numberOfMeasurement]=0;
     }
-    lcd.clear();
-      lcd.print(composedNumber);
+    //lcd.clear();
+    lcd.print(composedNumber[numberOfMeasurement]);
   while (analogRead(keyboardPin) > NOT_PRESSED_THRESHOLD) { //wait until key no longer pressed
   }
 
