@@ -98,7 +98,7 @@ void readkeyboard(){
   if ((keyboardValue >870) && (keyboardValue < 890)){keypressed = 6;}
   if ((keyboardValue >1010) && (keyboardValue < 1024)){keypressed = 3;}
   
-  if (255!=keyboardValue) {
+  if (255!=keypressed) {
     //NOTE: the values used above are all halfway between the value obtained with each keypress in previous test sketch 
     if (analogRead(keyboardPin) > NOT_PRESSED_THRESHOLD){
       int temp = composedNumber;
