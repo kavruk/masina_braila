@@ -1,7 +1,7 @@
 #define MAX_NUMBER 25000
 #define ENTER_KEY 41
 #define DEL_KEY 42
-#define NOT_PRESSED_THRESHOLD 252
+#define NOT_PRESSED_THRESHOLD 25
 int keypressed = 0;
 int keyboardPin = 7;    // Analog input pin that the keypad is attached to
 int keyboardValue = 0;   // value read from the keyboard
