@@ -52,22 +52,22 @@ void readkeyboard() {
       keyboardValue += analogRead(keyboardPin);
     keyboardValue = keyboardValue / 5; //calculate 5 sample average
   }
-  Serial.println(keyboardValue);
-  //keypressed=NO_KEY_PRESSED;
-  //  if ((keyboardValue >70) && (keyboardValue < 90)){keypressed = ENTER_KEY;}
-  //  if ((keyboardValue >145) && (keyboardValue < 156)){keypressed = 7;}
-  //  if ((keyboardValue >220) && (keyboardValue < 228)){keypressed = 4;}
-  //  if ((keyboardValue >280) && (keyboardValue < 290)){keypressed = 1;}
-  //  if ((keyboardValue >350) && (keyboardValue < 360)){keypressed = 0;}
-  //  if ((keyboardValue >420) && (keyboardValue < 430)){keypressed = 8;}
-  //  if ((keyboardValue >490) && (keyboardValue < 500)){keypressed = 5;}
-  //  if ((keyboardValue >570) && (keyboardValue < 580)){keypressed = 2;}
-  //  if ((keyboardValue >660) && (keyboardValue < 670)){keypressed = DEL_KEY;}
-  //  if ((keyboardValue >750) && (keyboardValue < 770)){keypressed = 9;}
-  //  if ((keyboardValue >870) && (keyboardValue < 890)){keypressed = 6;}
-  //  if ((keyboardValue >1010) && (keyboardValue < 1024)){keypressed = 3;}
-  //  Serial.println(keypressed);
-  //  //if (255!=keypressed) {
+  //Serial.println(keyboardValue);
+  keypressed=NO_KEY_PRESSED;
+    if ((keyboardValue >70) && (keyboardValue < 90)){keypressed = ENTER_KEY;}
+    if ((keyboardValue >145) && (keyboardValue < 156)){keypressed = 7;}
+    if ((keyboardValue >220) && (keyboardValue < 228)){keypressed = 4;}
+    if ((keyboardValue >280) && (keyboardValue < 290)){keypressed = 1;}
+    if ((keyboardValue >350) && (keyboardValue < 360)){keypressed = 0;}
+    if ((keyboardValue >420) && (keyboardValue < 430)){keypressed = 8;}
+    if ((keyboardValue >490) && (keyboardValue < 500)){keypressed = 5;}
+    if ((keyboardValue >570) && (keyboardValue < 582)){keypressed = 2;}
+    if ((keyboardValue >660) && (keyboardValue < 672)){keypressed = DEL_KEY;}
+    if ((keyboardValue >750) && (keyboardValue < 770)){keypressed = 9;}
+    if ((keyboardValue >870) && (keyboardValue < 890)){keypressed = 6;}
+    if ((keyboardValue >1010) && (keyboardValue < 1024)){keypressed = 3;}
+    Serial.println(keypressed);
+    //if (255!=keypressed) {
   //NOTE: the values used above are all halfway between the value obtained with each keypress in previous test sketch
   //    if (analogRead(keyboardPin) > NOT_PRESSED_THRESHOLD){
   //      int temp = composedNumber;
