@@ -52,7 +52,7 @@ void readkeyboard() {
       keyboardValue += analogRead(keyboardPin);
     keyboardValue = keyboardValue / 5; //calculate 5 sample average
   }
-  Serial.print(keyboardValue);
+  Serial.println(keyboardValue);
   //keypressed=NO_KEY_PRESSED;
   //  if ((keyboardValue >70) && (keyboardValue < 90)){keypressed = ENTER_KEY;}
   //  if ((keyboardValue >145) && (keyboardValue < 156)){keypressed = 7;}
