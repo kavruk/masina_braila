@@ -84,7 +84,7 @@ void readkeyboard(){
         keyboardValue+=analogRead(keyboardPin);
     keyboardValue=keyboardValue/5;  //calculate 5 sample average
   }
-  keypressed=NO_KEY_PRESSED;    
+  //keypressed=NO_KEY_PRESSED;    
   if ((keyboardValue >70) && (keyboardValue < 90)){keypressed = ENTER_KEY;}
   if ((keyboardValue >145) && (keyboardValue < 156)){keypressed = 7;}
   if ((keyboardValue >220) && (keyboardValue < 228)){keypressed = 4;}
@@ -98,7 +98,7 @@ void readkeyboard(){
   if ((keyboardValue >870) && (keyboardValue < 890)){keypressed = 6;}
   if ((keyboardValue >1010) && (keyboardValue < 1024)){keypressed = 3;}
   Serial.println(keypressed);
-  if (255!=keypressed) {
+  //if (255!=keypressed) {
     //NOTE: the values used above are all halfway between the value obtained with each keypress in previous test sketch 
     if (analogRead(keyboardPin) > NOT_PRESSED_THRESHOLD){
       int temp = composedNumber;
@@ -119,7 +119,7 @@ void readkeyboard(){
         composedNumber=0;
       }
     }
-  }  
+  //}  
   while (analogRead(keyboardPin) > NOT_PRESSED_THRESHOLD) { //wait until key no longer pressed
   }
 
