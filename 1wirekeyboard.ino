@@ -3,7 +3,7 @@
 #define DEL_KEY 42
 #define NOT_PRESSED_THRESHOLD 25
 #define NO_KEY_PRESSED 255
-#define SERIAL_ENABLED 0
+#define SERIAL_ENABLED 1
 int keypressed = 0;
 int keyboardPin = 7;    // Analog input pin that the keypad is attached to
 int keyboardValue = 0;   // value read from the keyboard
@@ -77,12 +77,11 @@ void readkeyboard() {
     composedNumber[numberOfMeasurement]+=keypressed;
     if (composedNumber[numberOfMeasurement]>MAX_NUMBER || composedNumber[numberOfMeasurement]<0){   //oare trebuie bagata si valoare minima??? 20cm?
       composedNumber[numberOfMeasurement]=temp;
-      
 #if SERIAL_ENABLED
       Serial.println("Error: Out of bounds!");
 #endif
     }
-	lcd.setCursor(0,numberOfMeasurement);
+  lcd.setCursor(0,numberOfMeasurement);
     lcd.print(composedNumber[numberOfMeasurement]);
   }
   if (ENTER_KEY==keypressed)  {                //set the target to current number
@@ -97,9 +96,9 @@ void readkeyboard() {
     Serial.println("DELETE pressed");
 #endif
     lcd.setCursor(0,numberOfMeasurement);
-	lcd.print("0     ");
-	composedNumber[numberOfMeasurement]=0;
-	
+    lcd.print("     ");
+    lcd.setCursor(0,numberOfMeasurement);
+    composedNumber[numberOfMeasurement]=0;
   }
   while (analogRead(keyboardPin) > NOT_PRESSED_THRESHOLD) { //wait until key no longer pressed
   }
