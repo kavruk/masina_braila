@@ -45,7 +45,7 @@ void setup() {
   Serial.setTimeout(2000);
 #endif
   lcd.begin(20, 4);
-  lcd.setCursor(1, 0);
+  lcd.setCursor(0, 0);
   lcd.blink();
   for (int i=0;i<4;i++)
     composedNumber[i]=0;
@@ -58,7 +58,6 @@ void readkeyboard() {
     for (char i = 0; i < 5; i++) //read 5 samples
       keyboardValue += analogRead(keyboardPin);
     keyboardValue = keyboardValue / 5; //calculate 5 sample average
-    lcd.print(composedNumber[numberOfMeasurement]);
   }
   keypressed=NO_KEY_PRESSED;
   if ((keyboardValue >70) && (keyboardValue < 90)){keypressed = ENTER_KEY;}
@@ -79,17 +78,19 @@ void readkeyboard() {
     composedNumber[numberOfMeasurement]+=keypressed;
     if (composedNumber[numberOfMeasurement]>MAX_NUMBER || composedNumber[numberOfMeasurement]<0){   //oare trebuie bagata si valoare minima??? 20cm?
       composedNumber[numberOfMeasurement]=temp;
+      
 #if SERIAL_ENABLED
       Serial.println("Error: Out of bounds!");
 #endif
     }
+    lcd.print(composedNumber[numberOfMeasurement], DEC);
   }
   if (ENTER_KEY==keypressed)  {                //set the target to current number
 #if SERIAL_ENABLED
       Serial.println("ENTER pressed");
 #endif
     numberOfMeasurement++;
-    lcd.setCursor(1, numberOfMeasurement);
+    lcd.setCursor(0, numberOfMeasurement);
   }
   if (DEL_KEY==keypressed)  {                //clear the current number
 #if SERIAL_ENABLED
@@ -97,7 +98,6 @@ void readkeyboard() {
 #endif
     composedNumber[numberOfMeasurement]=0;
   }
-  
   while (analogRead(keyboardPin) > NOT_PRESSED_THRESHOLD) { //wait until key no longer pressed
   }
 }
@@ -120,7 +120,7 @@ void loop() {
       // notify sender of the entered value
       Serial.print("Entered value: ");
       Serial.println(composedNumber[numberOfMeasurement]);
-      lcd.setCursor(1, numberOfMeasurement);
+      lcd.setCursor(0, numberOfMeasurement);
       lcd.print(composedNumber[numberOfMeasurement], DEC);
       // Print extra empty line
       Serial.println("");
