@@ -4,6 +4,7 @@
 #define NOT_PRESSED_THRESHOLD 25
 #define NO_KEY_PRESSED 255
 #define SERIAL_ENABLED 1
+#define SAMPLES_NUMBER 2
 int keypressed = 0;
 int keyboardPin = 7;    // Analog input pin that the keypad is attached to
 int keyboardValue = 0;   // value read from the keyboard
@@ -54,9 +55,9 @@ void readkeyboard() {
   if (keyboardValue > NOT_PRESSED_THRESHOLD) { //minimum press threshold
     delay(30);           //30ms delay for debounde
     keyboardValue = 0;
-    for (char i = 0; i < 5; i++) //read 5 samples
+    for (char i = 0; i < SAMPLES_NUMBER; i++) //read 5 samples
       keyboardValue += analogRead(keyboardPin);
-    keyboardValue = keyboardValue / 5; //calculate 5 sample average
+    keyboardValue = keyboardValue / SAMPLES_NUMBER; //calculate 5 sample average
   }
   keypressed=NO_KEY_PRESSED;
   if ((keyboardValue >70) && (keyboardValue < 90)){keypressed = ENTER_KEY;}
@@ -81,7 +82,7 @@ void readkeyboard() {
       Serial.println("Error: Out of bounds!");
 #endif
     }
-  lcd.setCursor(0,numberOfMeasurement);
+	lcd.setCursor(0,numberOfMeasurement);
     lcd.print(composedNumber[numberOfMeasurement]);
   }
   if (ENTER_KEY==keypressed)  {                //set the target to current number
@@ -122,7 +123,7 @@ void loop() {
       Serial.print("Entered value: ");
       Serial.println(composedNumber[numberOfMeasurement]);
       lcd.setCursor(0, numberOfMeasurement);
-      lcd.print(composedNumber[numberOfMeasurement], DEC);
+      lcd.print(composedNumber[numberOfMeasurement]);
       // Print extra empty line
       Serial.println("");
       numberOfMeasurement++;
