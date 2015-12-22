@@ -58,6 +58,7 @@ void readkeyboard() {
     for (char i = 0; i < 5; i++) //read 5 samples
       keyboardValue += analogRead(keyboardPin);
     keyboardValue = keyboardValue / 5; //calculate 5 sample average
+    lcd.print(composedNumber[numberOfMeasurement]);
   }
   keypressed=NO_KEY_PRESSED;
   if ((keyboardValue >70) && (keyboardValue < 90)){keypressed = ENTER_KEY;}
@@ -96,7 +97,7 @@ void readkeyboard() {
 #endif
     composedNumber[numberOfMeasurement]=0;
   }
-  lcd.print(composedNumber[numberOfMeasurement]);
+  
   while (analogRead(keyboardPin) > NOT_PRESSED_THRESHOLD) { //wait until key no longer pressed
   }
 }
