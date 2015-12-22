@@ -11,7 +11,6 @@ int composedNumber[4];
 int numberOfMeasurement=0;
 #include <LiquidCrystal.h>
 LiquidCrystal lcd(A0, A1, A2, A3, A4, A5);
-int currentPos = 0, targetPos = 0;
 #if SERIAL_ENABLED
 // variable to store the length of received bytes
 int incomingLen = 0;
@@ -83,7 +82,7 @@ void readkeyboard() {
       Serial.println("Error: Out of bounds!");
 #endif
     }
-    lcd.print(composedNumber[numberOfMeasurement], DEC);
+    lcd.print(composedNumber[numberOfMeasurement]);
   }
   if (ENTER_KEY==keypressed)  {                //set the target to current number
 #if SERIAL_ENABLED
@@ -107,8 +106,7 @@ void loop() {
   incomingLen = Serial.available();
   if (incomingLen == 0)
   {
-    // if there is no data in serial input buffer, let's sleep
-    // for a while
+    // if there is no data in serial input buffer, let's sleep for a while
     delay(100);
   }
   else {
