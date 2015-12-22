@@ -4,7 +4,8 @@
 #define NOT_PRESSED_THRESHOLD 25
 #define NO_KEY_PRESSED 255
 #define SERIAL_ENABLED 1
-#define SAMPLES_NUMBER 2
+#define SAMPLES_NUMBER 5
+
 int keypressed = 0;
 int keyboardPin = 7;    // Analog input pin that the keypad is attached to
 int keyboardValue = 0;   // value read from the keyboard
@@ -19,7 +20,6 @@ int incomingLen = 0;
 byte readLen = 0;
 // variable to store incoming bytes of ascii chars
 char buffer[64];
-
 int strToInt(char AStr[], byte ALen)
 {
   int Result = 0;
@@ -53,7 +53,7 @@ void setup() {
 void readkeyboard() {
   keyboardValue = analogRead(keyboardPin); // read the value (0-1023)
   if (keyboardValue > NOT_PRESSED_THRESHOLD) { //minimum press threshold
-    delay(30);           //30ms delay for debounde
+    delay(30);           //30ms delay for debounce
     keyboardValue = 0;
     for (char i = 0; i < SAMPLES_NUMBER; i++) //read 5 samples
       keyboardValue += analogRead(keyboardPin);
@@ -84,12 +84,23 @@ void readkeyboard() {
     }
 	lcd.setCursor(0,numberOfMeasurement);
     lcd.print(composedNumber[numberOfMeasurement]);
+#if SERIAL_ENABLED
+      Serial.println(composedNumber[numberOfMeasurement]);
+#endif
   }
-  if (ENTER_KEY==keypressed)  {                //set the target to current number
+  if (ENTER_KEY==keypressed){                //set the target to current number
 #if SERIAL_ENABLED
       Serial.println("ENTER pressed");
 #endif
     numberOfMeasurement++;
+	if (4==numberOfMeasurement){
+        numberOfMeasurement=0;
+        for(int i=0;i<4;i++){
+          composedNumber[i]=0;      //clear all stored readings
+		  lcd.clear();
+		  lcd.setCursor(0,0);
+        }
+      }
     lcd.setCursor(0, numberOfMeasurement);
   }
   if (DEL_KEY==keypressed)  {                //clear the current number
@@ -97,7 +108,7 @@ void readkeyboard() {
     Serial.println("DELETE pressed");
 #endif
     lcd.setCursor(0,numberOfMeasurement);
-    lcd.print("     ");
+    lcd.print("       ");
     lcd.setCursor(0,numberOfMeasurement);
     composedNumber[numberOfMeasurement]=0;
   }
