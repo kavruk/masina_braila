@@ -3,22 +3,22 @@
 #define DEL_KEY 42
 #define NOT_PRESSED_THRESHOLD 25
 #define NO_KEY_PRESSED 255
+#define SERIAL_ENABLED 0
 int keypressed = 0;
 int keyboardPin = 7;    // Analog input pin that the keypad is attached to
 int keyboardValue = 0;   // value read from the keyboard
 int composedNumber[4];
 int numberOfMeasurement=0;
-#define DELAY_TIME 1
 #include <LiquidCrystal.h>
 LiquidCrystal lcd(A0, A1, A2, A3, A4, A5);
 int currentPos = 0, targetPos = 0;
+#if SERIAL_ENABLED
 // variable to store the length of received bytes
 int incomingLen = 0;
 // variable to store the actual bytes read from the receive buffer
 byte readLen = 0;
 // variable to store incoming bytes of ascii chars
 char buffer[64];
-
 
 int strToInt(char AStr[], byte ALen)
 {
@@ -38,11 +38,15 @@ int strToInt(char AStr[], byte ALen)
   }
   return Result;
 }
+#endif
 void setup() {
+#if SERIAL_ENABLED
   Serial.begin(9600);
+  Serial.setTimeout(2000);
+#endif
   lcd.begin(20, 4);
   lcd.setCursor(1, 0);
-  Serial.setTimeout(2000);
+  lcd.blink();
   for (int i=0;i<4;i++)
     composedNumber[i]=0;
 }
@@ -55,75 +59,79 @@ void readkeyboard() {
       keyboardValue += analogRead(keyboardPin);
     keyboardValue = keyboardValue / 5; //calculate 5 sample average
   }
-  
   keypressed=NO_KEY_PRESSED;
-    if ((keyboardValue >70) && (keyboardValue < 90)){keypressed = ENTER_KEY;}
-    if ((keyboardValue >145) && (keyboardValue < 156)){keypressed = 7;}
-    if ((keyboardValue >220) && (keyboardValue < 228)){keypressed = 4;}
-    if ((keyboardValue >280) && (keyboardValue < 290)){keypressed = 1;}
-    if ((keyboardValue >350) && (keyboardValue < 360)){keypressed = 0;}
-    if ((keyboardValue >420) && (keyboardValue < 430)){keypressed = 8;}
-    if ((keyboardValue >490) && (keyboardValue < 500)){keypressed = 5;}
-    if ((keyboardValue >570) && (keyboardValue < 582)){keypressed = 2;}
-    if ((keyboardValue >660) && (keyboardValue < 672)){keypressed = DEL_KEY;}
-    if ((keyboardValue >750) && (keyboardValue < 770)){keypressed = 9;}
-    if ((keyboardValue >870) && (keyboardValue < 890)){keypressed = 6;}
-    if ((keyboardValue >1010) && (keyboardValue < 1024)){keypressed = 3;}
-    if (keypressed>=0&&keypressed<=9) {
-      //Serial.println(keypressed);
-      int temp = composedNumber[numberOfMeasurement];
-      composedNumber[numberOfMeasurement]*=10;
-      composedNumber[numberOfMeasurement]+=keypressed;
-      if (composedNumber[numberOfMeasurement]>MAX_NUMBER || composedNumber[numberOfMeasurement]<0){   //oare trebuie bagata si valoare minima??? 20cm?
-        composedNumber[numberOfMeasurement]=temp;
-        Serial.println("Error: Out of bounds!");
-      }
-      
+  if ((keyboardValue >70) && (keyboardValue < 90)){keypressed = ENTER_KEY;}
+  if ((keyboardValue >145) && (keyboardValue < 156)){keypressed = 7;}
+  if ((keyboardValue >220) && (keyboardValue < 228)){keypressed = 4;}
+  if ((keyboardValue >280) && (keyboardValue < 290)){keypressed = 1;}
+  if ((keyboardValue >350) && (keyboardValue < 360)){keypressed = 0;}
+  if ((keyboardValue >420) && (keyboardValue < 430)){keypressed = 8;}
+  if ((keyboardValue >490) && (keyboardValue < 500)){keypressed = 5;}
+  if ((keyboardValue >570) && (keyboardValue < 582)){keypressed = 2;}
+  if ((keyboardValue >660) && (keyboardValue < 672)){keypressed = DEL_KEY;}
+  if ((keyboardValue >750) && (keyboardValue < 770)){keypressed = 9;}
+  if ((keyboardValue >870) && (keyboardValue < 890)){keypressed = 6;}
+  if ((keyboardValue >1010) && (keyboardValue < 1024)){keypressed = 3;}
+  if (keypressed>=0&&keypressed<=9) {     //create multi char number from key presses
+    int temp = composedNumber[numberOfMeasurement];
+    composedNumber[numberOfMeasurement]*=10;
+    composedNumber[numberOfMeasurement]+=keypressed;
+    if (composedNumber[numberOfMeasurement]>MAX_NUMBER || composedNumber[numberOfMeasurement]<0){   //oare trebuie bagata si valoare minima??? 20cm?
+      composedNumber[numberOfMeasurement]=temp;
+#if SERIAL_ENABLED
+      Serial.println("Error: Out of bounds!");
+#endif
     }
-    if (ENTER_KEY==keypressed)  {                //set the target to current number
+  }
+  if (ENTER_KEY==keypressed)  {                //set the target to current number
+#if SERIAL_ENABLED
       Serial.println("ENTER pressed");
-      numberOfMeasurement++;
-      lcd.setCursor(1, numberOfMeasurement);
-    }
-    if (DEL_KEY==keypressed)  {                //clear the current number
-      Serial.println("DELETE pressed");
-      composedNumber[numberOfMeasurement]=0;
-    }
-    //lcd.clear();
-    lcd.print(composedNumber[numberOfMeasurement]);
+#endif
+    numberOfMeasurement++;
+    lcd.setCursor(1, numberOfMeasurement);
+  }
+  if (DEL_KEY==keypressed)  {                //clear the current number
+#if SERIAL_ENABLED
+    Serial.println("DELETE pressed");
+#endif
+    composedNumber[numberOfMeasurement]=0;
+  }
+  lcd.print(composedNumber[numberOfMeasurement]);
   while (analogRead(keyboardPin) > NOT_PRESSED_THRESHOLD) { //wait until key no longer pressed
   }
-
 }
 void loop() {
-  incomingLen = Serial.available();
   readkeyboard(); //get the value of key being pressed "keypressed" i.e. 0-9
+#if SERIAL_ENABLED
+  incomingLen = Serial.available();
   if (incomingLen == 0)
   {
     // if there is no data in serial input buffer, let's sleep
     // for a while
     delay(100);
   }
-  else
-  {
+  else {
     // read the data in serial input buffer
     readLen = Serial.readBytes(buffer, incomingLen);
-    if (readLen != 0)
-    {
+    if (readLen != 0){
       // convert the ascii string number into correct binary form
-      targetPos = (strToInt(buffer, readLen) - 2550) * 1.3333;
+      composedNumber[numberOfMeasurement] = strToInt(buffer, readLen);
       // notify sender of the entered value
       Serial.print("Entered value: ");
-      Serial.println(targetPos / 1.333 + 2550);
-      lcd.clear();
-      lcd.print ("value:");
-      lcd.setCursor(6, 0);
-      lcd.print (targetPos / 1.333 + 2550, DEC);
+      Serial.println(composedNumber[numberOfMeasurement]);
+      lcd.setCursor(1, numberOfMeasurement);
+      lcd.print(composedNumber[numberOfMeasurement], DEC);
       // Print extra empty line
       Serial.println("");
+      numberOfMeasurement++;
+      if (4==numberOfMeasurement){
+        numberOfMeasurement=0;
+        for(int i=0;i<4;i++){
+          composedNumber[i]=0;      //clear all stored readings
+        }
+      }
     }
     Serial.println("empty");
   }
-
-
+#endif
 }
