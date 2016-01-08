@@ -170,6 +170,7 @@ void loop() {
       Serial.println("");
       numberOfMeasurement++;
       if (4==numberOfMeasurement){
+        Serial.println("4 Measurements entered");
         numberOfMeasurement=0;
         for(int i=0;i<4;i++){
           composedNumber[i]=0;      //clear all stored readings
