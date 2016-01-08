@@ -22,6 +22,8 @@ LiquidCrystal lcd(11, 12, A2, A3, A4, A5);
 #define step_pin 9 // Pin 3 connected to Steps pin on EasyDriver
 #define dir_pin 10   // Pin 2 connected to Direction pin
 #define SLEEP 7     // Pin 7 connected to SLEEP pin
+#define DELAY_TIME 1
+int currentPos=0;
 
 //serial
 #if SERIAL_ENABLED
@@ -171,6 +173,31 @@ void loop() {
       numberOfMeasurement++;
       if (4==numberOfMeasurement){
         Serial.println("4 Measurements entered");
+        //move motor
+        for (int i=0;i<4;i++) {
+          while (composedNumber[i]>0 && composedNumber[i]<MAX_NUMBER && !digitalRead(ZERO_POS) && currentPos!=composedNumber[i]) {
+            if (currentPos>composedNumber[i]) {
+              digitalWrite(dir_pin, HIGH);  // (HIGH = anti-clockwise / LOW = clockwise)
+              digitalWrite(step_pin, HIGH);
+              // delay(1);
+              digitalWrite(step_pin, LOW);
+              //delay(1);
+              for (int i=0;i<DELAY_TIME;i++) analogRead(A6);
+                currentPos--;
+            }
+            if (currentPos<composedNumber[i]) {
+              digitalWrite(dir_pin, LOW);  // (HIGH = anti-clockwise / LOW = clockwise)
+              digitalWrite(step_pin, HIGH);
+              //delay(1);
+              digitalWrite(step_pin, LOW);
+              //delay(1);
+              for (int i=0;i<DELAY_TIME;i++) 
+                analogRead(A6);
+              currentPos++;
+            }
+           }
+        }
+  
         numberOfMeasurement=0;
         for(int i=0;i<4;i++){
           composedNumber[i]=0;      //clear all stored readings
