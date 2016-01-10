@@ -172,10 +172,11 @@ void loop() {
       Serial.println("");
       numberOfMeasurement++;
       if (4==numberOfMeasurement){
-        Serial.println("4 Measurements entered");
+        Serial.println("4 measurements entered");
         //move motor
         for (int i=0;i<4;i++) {
           while (composedNumber[i]>0 && composedNumber[i]<MAX_NUMBER && !digitalRead(ZERO_POS) && currentPos!=composedNumber[i]) {
+            Serial.println("moving");
             if (currentPos>composedNumber[i]) {
               digitalWrite(dir_pin, HIGH);  // (HIGH = anti-clockwise / LOW = clockwise)
               digitalWrite(step_pin, HIGH);
