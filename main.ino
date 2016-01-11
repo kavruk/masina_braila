@@ -175,7 +175,7 @@ void loop() {
         //move motor
         for (int i=0;i<4;i++) {
           while (composedNumber[i]>0 && composedNumber[i]<MAX_NUMBER && !digitalRead(ZERO_POS) && currentPos!=composedNumber[i]) {
-if SERIAL_ENABLED
+#if SERIAL_ENABLED
             Serial.print(currentPos);
             Serial.print(":");
             Serial.println(composedNumber[i]);
