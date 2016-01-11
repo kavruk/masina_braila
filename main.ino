@@ -180,6 +180,8 @@ void loop() {
             Serial.print(currentPos);
             Serial.print(":");
             Serial.println(composedNumber[i]);
+            Serial.println(digitalRead(CUT_ENGAGED));
+            Serial.println(digitalRead(CUT_EXECUTED));
 #endif 
             if (currentPos>composedNumber[i]) {
               digitalWrite(dir_pin, HIGH);  // (HIGH = anti-clockwise / LOW = clockwise)
@@ -201,8 +203,8 @@ void loop() {
               currentPos++;
             }
            }
-           while(!digitalRead(CUT_ENGAGED));
-           while(!digitalRead(CUT_EXECUTED));
+           while(digitalRead(CUT_ENGAGED));
+           while(digitalRead(CUT_EXECUTED));
         }
   
         numberOfMeasurement=0;
