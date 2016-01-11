@@ -201,8 +201,8 @@ void loop() {
               currentPos++;
             }
            }
-           while(!CUT_ENGAGED);
-           while(!CUT_EXECUTED);
+           while(!digitalRead(CUT_ENGAGED));
+           while(!digitalRead(CUT_EXECUTED));
         }
   
         numberOfMeasurement=0;
