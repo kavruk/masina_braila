@@ -6,7 +6,7 @@
 #define NO_KEY_PRESSED 255
 #define SERIAL_ENABLED 1
 #define ZERO_POS 2//pin punct 0 
-
+#define CLEAR_20CMc
 #define SAMPLES_NUMBER 5
 int keypressed = 0;
 int keyboardPin = 7;    // Analog input pin that the keypad is attached to
@@ -15,6 +15,7 @@ int composedNumber[4];
 int numberOfMeasurement=0;
 #define CUT_ENGAGED 3
 #define CUT_EXECUTED 4
+#define CLEAR_20CM 2000
 //display
 #include <LiquidCrystal.h>
 LiquidCrystal lcd(11, 12, A2, A3, A4, A5);
@@ -203,8 +204,23 @@ void loop() {
               currentPos++;
             }
            }
-           while(digitalRead(CUT_ENGAGED));
-           while(digitalRead(CUT_EXECUTED));
+           while(digitalRead(CUT_ENGAGED)==1);
+           while(digitalRead(CUT_EXECUTED)==0);
+           while(digitalRead(CUT_ENGAGED)==1);
+           
+           delay(5000);
+           //move forward 20cm
+           digitalWrite(dir_pin, LOW);  // (HIGH = anti-clockwise / LOW = clockwise)
+           for (int i=0;i<CLEAR_20CM;i++){
+            digitalWrite(step_pin, HIGH);
+            delay(1);
+            digitalWrite(step_pin, LOW);
+            delay(1);
+            }
+            lcd.clear();
+            lcd.setCursor(0,0);
+            lcd.print("ia bagheta");
+           delay(5000);
         }
   
         numberOfMeasurement=0;
