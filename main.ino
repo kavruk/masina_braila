@@ -217,8 +217,8 @@ void loop() {
             digitalWrite(step_pin, LOW);
             delay(1);
             }
-            lcd.clear();
-            lcd.setCursor(0,0);
+            
+            lcd.setCursor(0,7);
             lcd.print("ia bagheta");
            delay(5000);
         }
