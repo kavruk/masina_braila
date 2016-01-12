@@ -132,7 +132,11 @@ void readkeyboard() {
         Serial.print("Error: Number smaller than ");
         Serial.println(MIN_NUMBER);
 #endif
+        lcd.setCursor(0,numberOfMeasurement);
+        lcd.print("Numar prea mic");
         deleteRow();
+        if (numberOfMeasurement>0)
+           numberOfMeasurement--;  
      }
   numberOfMeasurement++;
   
@@ -150,10 +154,9 @@ void readkeyboard() {
 #if SERIAL_ENABLED
     Serial.println("DELETE pressed");
 #endif
-     if (numberOfMeasurement>0)
-      numberOfMeasurement--;
     deleteRow();
-   
+    if (numberOfMeasurement>0)
+      numberOfMeasurement--;
   }
   while (analogRead(keyboardPin) > NOT_PRESSED_THRESHOLD) { //wait until key no longer pressed
   }
@@ -216,7 +219,6 @@ void loop() {
            while(digitalRead(CUT_ENGAGED)==1);
            while(digitalRead(CUT_EXECUTED)==0);
            while(digitalRead(CUT_ENGAGED)==1);
-           
            delay(5000);
            //move forward 20cm
            digitalWrite(dir_pin, LOW);  // (HIGH = anti-clockwise / LOW = clockwise)
@@ -242,7 +244,7 @@ void loop() {
 }
 void deleteRow(){
    lcd.setCursor(0,numberOfMeasurement);
-    lcd.print("       ");
+    lcd.print("            ");
     lcd.setCursor(0,numberOfMeasurement);
     composedNumber[numberOfMeasurement]=0;
 }
