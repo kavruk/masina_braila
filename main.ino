@@ -142,7 +142,7 @@ void readkeyboard() {
   numberOfMeasurement++;
 #if SERIAL_ENABLED
     Serial.print("number of measurement = ");
-    Serial.print(numberOfMeasurement);
+    Serial.println(numberOfMeasurement);
 #endif
   if (5<=numberOfMeasurement){            
         numberOfMeasurement=0;
