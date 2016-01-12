@@ -134,6 +134,7 @@ void readkeyboard() {
 #endif
         lcd.setCursor(0,numberOfMeasurement);
         lcd.print("Numar prea mic");
+        delay(500);
         deleteRow();
         if (numberOfMeasurement>0)
            numberOfMeasurement--;  
@@ -244,7 +245,7 @@ void loop() {
 }
 void deleteRow(){
    lcd.setCursor(0,numberOfMeasurement);
-    lcd.print("            ");
+    lcd.print("              ");
     lcd.setCursor(0,numberOfMeasurement);
     composedNumber[numberOfMeasurement]=0;
 }
