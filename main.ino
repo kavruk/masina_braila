@@ -150,9 +150,10 @@ void readkeyboard() {
 #if SERIAL_ENABLED
     Serial.println("DELETE pressed");
 #endif
-    deleteRow();
-    if (numberOfMeasurement>0)
+     if (numberOfMeasurement>0)
       numberOfMeasurement--;
+    deleteRow();
+   
   }
   while (analogRead(keyboardPin) > NOT_PRESSED_THRESHOLD) { //wait until key no longer pressed
   }
@@ -245,4 +246,3 @@ void deleteRow(){
     lcd.setCursor(0,numberOfMeasurement);
     composedNumber[numberOfMeasurement]=0;
 }
-
