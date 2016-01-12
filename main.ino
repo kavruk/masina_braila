@@ -115,7 +115,7 @@ void readkeyboard() {
 #if SERIAL_ENABLED
       Serial.println("Error: Out of bounds!");
 #endif
-    }
+     }
   lcd.setCursor(0,numberOfMeasurement);
     lcd.print(composedNumber[numberOfMeasurement]);
 #if SERIAL_ENABLED
@@ -127,12 +127,12 @@ void readkeyboard() {
       Serial.println("ENTER pressed");
 #endif
     numberOfMeasurement++;
-  if (4==numberOfMeasurement){
+  if (5==numberOfMeasurement){            
         numberOfMeasurement=0;
         for(int i=0;i<4;i++){
           composedNumber[i]=0;      //clear all stored readings
-      lcd.clear();
-      lcd.setCursor(0,0);
+          lcd.clear();
+      se    lcd.setCursor(0,0);
         }
       }
     lcd.setCursor(0, numberOfMeasurement);
@@ -216,13 +216,11 @@ void loop() {
             delay(1);
             digitalWrite(step_pin, LOW);
             delay(1);
-            }
-            
+            }   
             lcd.setCursor(0,7);
             lcd.print("ia bagheta");
            delay(5000);
         }
-  
         numberOfMeasurement=0;
         for(int i=0;i<4;i++){
           composedNumber[i]=0;      //clear all stored readings
