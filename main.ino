@@ -140,7 +140,10 @@ void readkeyboard() {
            numberOfMeasurement--;  
      }
   numberOfMeasurement++;
-  
+#if SERIAL_ENABLED
+    Serial.print("number of measurement = ");
+    Serial.print(numberOfMeasurement);
+#endif
   if (5==numberOfMeasurement){            
         numberOfMeasurement=0;
         for(int i=0;i<4;i++){
