@@ -136,7 +136,7 @@ void readkeyboard() {
         lcd.print("Numar prea mic");
         delay(500);
         deleteRow();
-        if (numberOfMeasurement>0)
+        if (numberOfMeasurement>=0)
            numberOfMeasurement--;  
      }
   numberOfMeasurement++;
