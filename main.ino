@@ -172,7 +172,7 @@ void loop() {
   if (incomingLen == 0)
   {
     // if there is no data in serial input buffer, let's sleep for a while
-    //delay(100);
+    delay(100);
   }
   else {
     // read the data in serial input buffer
