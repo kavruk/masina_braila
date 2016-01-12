@@ -9,7 +9,7 @@
 #define CLEAR_20CMc
 #define SAMPLES_NUMBER 5
 int keypressed = 0;
-int keyboardPin = 7;    // Analog input pin that the keypad is attached to
+int keyboardPin = 0;    // Analog input pin that the keypad is attached to 0 la test ... 7 pe masina 
 int keyboardValue = 0;   // value read from the keyboard
 int composedNumber[4];
 int numberOfMeasurement=0;
@@ -18,12 +18,12 @@ int numberOfMeasurement=0;
 #define CLEAR_20CM 2000
 //display
 #include <LiquidCrystal.h>
-LiquidCrystal lcd(11, 12, A2, A3, A4, A5);
+LiquidCrystal lcd(11, 12, A2, A3, A4, A5); /// 11, 12 pt test  a1 , a2 pe masina 
 //motor
 #define step_pin 9 // Pin 3 connected to Steps pin on EasyDriver
 #define dir_pin 10   // Pin 2 connected to Direction pin
 #define SLEEP 7     // Pin 7 connected to SLEEP pin
-#define DELAY_TIME 1
+#define DELAY_TIME 8   // 1 pe masina .....8 pt test 
 int currentPos=0;
 
 //serial
