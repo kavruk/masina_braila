@@ -194,62 +194,62 @@ void loop() {
       //move motor
   if (4==numberOfMeasurement){
 #if SERIAL_ENABLED        
-        Serial.println("4 measurements entered");
+    Serial.println("4 measurements entered");
 #endif        
-        for (int i=0;i<4;i++) {
-          while (composedNumber[i]>0 && composedNumber[i]<MAX_NUMBER && !digitalRead(ZERO_POS) && currentPos!=composedNumber[i]) {
+    for (int i=0;i<4;i++) {
+      while (composedNumber[i]>0 && composedNumber[i]<MAX_NUMBER && !digitalRead(ZERO_POS) && currentPos!=composedNumber[i]) {
 #if SERIAL_ENABLED
-            Serial.print(currentPos);
-            Serial.print(":");
-            Serial.println(composedNumber[i]);
-            Serial.println(digitalRead(CUT_ENGAGED));
-            Serial.println(digitalRead(CUT_EXECUTED));
+        Serial.print(currentPos);
+        Serial.print(":");
+        Serial.println(composedNumber[i]);
+        Serial.println(digitalRead(CUT_ENGAGED));
+        Serial.println(digitalRead(CUT_EXECUTED));
 #endif 
-            if (currentPos>composedNumber[i]) {
-              digitalWrite(dir_pin, HIGH);  // (HIGH = anti-clockwise / LOW = clockwise)
-              digitalWrite(step_pin, HIGH);
-              // delay(1);
-              digitalWrite(step_pin, LOW);
-              //delay(1);
-              for (int i=0;i<DELAY_TIME;i++) analogRead(A6);
-                currentPos--;
-            }
-            if (currentPos<composedNumber[i]) {
-              digitalWrite(dir_pin, LOW);  // (HIGH = anti-clockwise / LOW = clockwise)
-              digitalWrite(step_pin, HIGH);
-              //delay(1);
-              digitalWrite(step_pin, LOW);
-              //delay(1);
-              for (int i=0;i<DELAY_TIME;i++) 
-                analogRead(A6);
-              currentPos++;
-            }
-           }
-           while(digitalRead(CUT_ENGAGED)==1);
-           while(digitalRead(CUT_EXECUTED)==0);
-           while(digitalRead(CUT_ENGAGED)==1);
-           delay(5000);
-           //move forward 20cm
-           digitalWrite(dir_pin, LOW);  // (HIGH = anti-clockwise / LOW = clockwise)
-           for (int i=0;i<CLEAR_20CM;i++){
-            digitalWrite(step_pin, HIGH);
-            delay(1);
-            digitalWrite(step_pin, LOW);
-            delay(1);
-            }   
-            lcd.setCursor(0,7);
-            lcd.print("ia bagheta");
-           delay(5000);
+        if (currentPos>composedNumber[i]) {
+          digitalWrite(dir_pin, HIGH);  // (HIGH = anti-clockwise / LOW = clockwise)
+          digitalWrite(step_pin, HIGH);
+          // delay(1);
+          digitalWrite(step_pin, LOW);
+          //delay(1);
+          for (int i=0;i<DELAY_TIME;i++) analogRead(A6);
+            currentPos--;
         }
-        numberOfMeasurement=0;
-        for(int i=0;i<4;i++){
-          composedNumber[i]=0;      //clear all stored readings
+        if (currentPos<composedNumber[i]) {
+          digitalWrite(dir_pin, LOW);  // (HIGH = anti-clockwise / LOW = clockwise)
+          digitalWrite(step_pin, HIGH);
+          //delay(1);
+          digitalWrite(step_pin, LOW);
+          //delay(1);
+          for (int i=0;i<DELAY_TIME;i++) 
+            analogRead(A6);
+          currentPos++;
         }
       }
+      while(digitalRead(CUT_ENGAGED)==1);
+      while(digitalRead(CUT_EXECUTED)==0);
+      while(digitalRead(CUT_ENGAGED)==1);
+      delay(5000);
+      //move forward 20cm
+      digitalWrite(dir_pin, LOW);  // (HIGH = anti-clockwise / LOW = clockwise)
+      for (int i=0;i<CLEAR_20CM;i++){
+        digitalWrite(step_pin, HIGH);
+        delay(1);
+        digitalWrite(step_pin, LOW);
+        delay(1);
+      }   
+      lcd.setCursor(0,7);
+      lcd.print("ia bagheta");
+      delay(5000);
     }
+    numberOfMeasurement=0;
+    for(int i=0;i<4;i++){
+      composedNumber[i]=0;      //clear all stored readings
+    }
+  }
+}
 void deleteRow(){
-   lcd.setCursor(0,numberOfMeasurement);
-    lcd.print("              ");
-    lcd.setCursor(0,numberOfMeasurement);
-    composedNumber[numberOfMeasurement]=0;
+  lcd.setCursor(0,numberOfMeasurement);
+  lcd.print("              ");
+  lcd.setCursor(0,numberOfMeasurement);
+  composedNumber[numberOfMeasurement]=0;
 }
