@@ -1,5 +1,6 @@
 //keyboard
 #define MAX_NUMBER 25000
+#define MIN_NUMBER 2560
 #define ENTER_KEY 41
 #define DEL_KEY 42
 #define NOT_PRESSED_THRESHOLD 25
@@ -116,23 +117,31 @@ void readkeyboard() {
       Serial.println("Error: Out of bounds!");
 #endif
      }
-  lcd.setCursor(0,numberOfMeasurement);
-    lcd.print(composedNumber[numberOfMeasurement]);
+     lcd.setCursor(0,numberOfMeasurement);
+     lcd.print(composedNumber[numberOfMeasurement]);
 #if SERIAL_ENABLED
       Serial.println(composedNumber[numberOfMeasurement]);
 #endif
   }
   if (ENTER_KEY==keypressed){                //set the target to current number
 #if SERIAL_ENABLED
-      Serial.println("ENTER pressed");
+    Serial.println("ENTER pressed");
 #endif
-    numberOfMeasurement++;
+  if (composedNumber[numberOfMeasurement]<MIN_NUMBER){
+#if SERIAL_ENABLED
+        Serial.print("Error: Number smaller than ");
+        Serial.println(MIN_NUMBER);
+#endif
+        deleteRow();
+     }
+  numberOfMeasurement++;
+  
   if (5==numberOfMeasurement){            
         numberOfMeasurement=0;
         for(int i=0;i<4;i++){
           composedNumber[i]=0;      //clear all stored readings
           lcd.clear();
-      se    lcd.setCursor(0,0);
+         lcd.setCursor(0,0);
         }
       }
     lcd.setCursor(0, numberOfMeasurement);
@@ -141,10 +150,9 @@ void readkeyboard() {
 #if SERIAL_ENABLED
     Serial.println("DELETE pressed");
 #endif
-    lcd.setCursor(0,numberOfMeasurement);
-    lcd.print("       ");
-    lcd.setCursor(0,numberOfMeasurement);
-    composedNumber[numberOfMeasurement]=0;
+    deleteRow();
+    if (numberOfMeasurement>0)
+      numberOfMeasurement--;
   }
   while (analogRead(keyboardPin) > NOT_PRESSED_THRESHOLD) { //wait until key no longer pressed
   }
@@ -231,3 +239,10 @@ void loop() {
   }
 #endif
 }
+void deleteRow(){
+   lcd.setCursor(0,numberOfMeasurement);
+    lcd.print("       ");
+    lcd.setCursor(0,numberOfMeasurement);
+    composedNumber[numberOfMeasurement]=0;
+}
+
