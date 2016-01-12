@@ -144,7 +144,7 @@ void readkeyboard() {
     Serial.print("number of measurement = ");
     Serial.println(numberOfMeasurement);
 #endif
-  if (5<=numberOfMeasurement){            
+  if (5==numberOfMeasurement){            
         numberOfMeasurement=0;
         for(int i=0;i<4;i++){
           composedNumber[i]=0;      //clear all stored readings
@@ -172,7 +172,7 @@ void loop() {
   if (incomingLen == 0)
   {
     // if there is no data in serial input buffer, let's sleep for a while
-    delay(100);
+    //delay(100);
   }
   else {
     // read the data in serial input buffer
@@ -183,14 +183,19 @@ void loop() {
       // notify sender of the entered value
       Serial.print("Entered value: ");
       Serial.println(composedNumber[numberOfMeasurement]);
-      lcd.setCursor(0, numberOfMeasurement);
-      lcd.print(composedNumber[numberOfMeasurement]);
       // Print extra empty line
       Serial.println("");
       numberOfMeasurement++;
-      if (4==numberOfMeasurement){
+      lcd.setCursor(0, numberOfMeasurement);
+      lcd.print(composedNumber[numberOfMeasurement]);
+    }
+  }
+#endif    
+      //move motor
+  if (4==numberOfMeasurement){
+#if SERIAL_ENABLED        
         Serial.println("4 measurements entered");
-        //move motor
+#endif        
         for (int i=0;i<4;i++) {
           while (composedNumber[i]>0 && composedNumber[i]<MAX_NUMBER && !digitalRead(ZERO_POS) && currentPos!=composedNumber[i]) {
 #if SERIAL_ENABLED
@@ -242,10 +247,6 @@ void loop() {
         }
       }
     }
-    Serial.println("empty");
-  }
-#endif
-}
 void deleteRow(){
    lcd.setCursor(0,numberOfMeasurement);
     lcd.print("              ");
