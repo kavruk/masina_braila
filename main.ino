@@ -144,7 +144,7 @@ void readkeyboard() {
     Serial.print("number of measurement = ");
     Serial.print(numberOfMeasurement);
 #endif
-  if (5==numberOfMeasurement){            
+  if (5<=numberOfMeasurement){            
         numberOfMeasurement=0;
         for(int i=0;i<4;i++){
           composedNumber[i]=0;      //clear all stored readings
