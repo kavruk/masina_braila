@@ -243,6 +243,8 @@ void loop() {
       lcd.setCursor(7,i);
       lcd.print("terminat  ");
     }
+    delay(500);
+    lcd.clear();
     numberOfMeasurement=0;
     for(int i=0;i<4;i++){
       composedNumber[i]=0;      //clear all stored readings
