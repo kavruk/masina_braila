@@ -237,10 +237,10 @@ void loop() {
         digitalWrite(step_pin, LOW);
         delay(1);
       }   
-      lcd.setCursor(i,7);
+      lcd.setCursor(7,i);
       lcd.print("ia bagheta");
       delay(5000);
-      lcd.setCursor(i,7);
+      lcd.setCursor(7,i);
       lcd.print("terminat  ");
     }
     numberOfMeasurement=0;
