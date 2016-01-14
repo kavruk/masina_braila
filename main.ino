@@ -185,9 +185,9 @@ void loop() {
       Serial.println(composedNumber[numberOfMeasurement]);
       // Print extra empty line
       Serial.println("");
-      numberOfMeasurement++;
       lcd.setCursor(0, numberOfMeasurement);
       lcd.print(composedNumber[numberOfMeasurement]);
+      numberOfMeasurement++;
     }
   }
 #endif    
