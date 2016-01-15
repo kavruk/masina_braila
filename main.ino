@@ -5,7 +5,7 @@
 #define DEL_KEY 42
 #define NOT_PRESSED_THRESHOLD 25
 #define NO_KEY_PRESSED 255
-#define SERIAL_ENABLED 1
+#define SERIAL_ENABLED 0
 #define ZERO_POS 2//pin punct 0 
 #define CLEAR_20CM 2666
 #define SAMPLES_NUMBER 5
@@ -238,13 +238,13 @@ void loop() {
       while(digitalRead(CUT_ENGAGED)==1);
       delay(5000);
       //move forward 20cm
-      digitalWrite(dir_pin, LOW);  // (HIGH = anti-clockwise / LOW = clockwise)
-      for (int i=0;i<CLEAR_20CM;i++){
-        digitalWrite(step_pin, HIGH);
-        delay(1);
-        digitalWrite(step_pin, LOW);
-        delay(1);
-      }   
+//      digitalWrite(dir_pin, LOW);  // (HIGH = anti-clockwise / LOW = clockwise)
+//      for (int i=0;i<CLEAR_20CM;i++){
+//        digitalWrite(step_pin, HIGH);
+//        delay(1);
+//        digitalWrite(step_pin, LOW);
+//        delay(1);
+//      }   
       lcd.setCursor(7,i);
       lcd.print("ia bagheta");
       delay(5000);
