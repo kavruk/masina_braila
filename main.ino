@@ -5,18 +5,18 @@
 #define DEL_KEY 42
 #define NOT_PRESSED_THRESHOLD 25
 #define NO_KEY_PRESSED 255
-#define SERIAL_ENABLED 1
+#define SERIAL_ENABLED 0
 #define ZERO_POS 2//pin punct 0 
 #define CLEAR_20CMc
 #define SAMPLES_NUMBER 5
 int keypressed = 0;
-int keyboardPin = 0;    // Analog input pin that the keypad is attached to 0 la test ... 7 pe masina 
+int keyboardPin = 6;    // Analog input pin that the keypad is attached to 0 la test ... 7 pe masina 
 int keyboardValue = 0;   // value read from the keyboard
 int composedNumber[4];
 int targetPos[4];
 int numberOfMeasurement=0;
-#define CUT_ENGAGED 3
-#define CUT_EXECUTED 4
+#define CUT_ENGAGED 12
+#define CUT_EXECUTED 13
 #define CLEAR_20CM 2000
 //display
 #include <LiquidCrystal.h>
@@ -109,6 +109,7 @@ void readkeyboard() {
   if ((keyboardValue >750) && (keyboardValue < 770)){keypressed = 9;}
   if ((keyboardValue >870) && (keyboardValue < 890)){keypressed = 6;}
   if ((keyboardValue >1010) && (keyboardValue < 1024)){keypressed = 3;}
+  Serial.println(keyboardValue);
   if (keypressed>=0&&keypressed<=9) {     //create multi char number from key presses
     int temp = composedNumber[numberOfMeasurement];
     composedNumber[numberOfMeasurement]*=10;
@@ -218,7 +219,7 @@ void loop() {
           // delay(1);
           digitalWrite(step_pin, LOW);
           //delay(1);
-          for (int i=0;i<DELAY_TIME;i++) analogRead(A6);
+          for (int i=0;i<DELAY_TIME;i++) analogRead(A7);
             currentPos--;
         }
         if (currentPos<targetPos[i]) {
@@ -228,7 +229,7 @@ void loop() {
           digitalWrite(step_pin, LOW);
           //delay(1);
           for (int i=0;i<DELAY_TIME;i++) 
-            analogRead(A6);
+            analogRead(A7);
           currentPos++;
         }
       }
