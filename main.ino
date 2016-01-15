@@ -255,6 +255,20 @@ void loop() {
     }
     delay(500);
     lcd.clear();
+     while (!digitalRead(ZERO_POS)){      //MOVE to zero
+    digitalWrite(dir_pin,HIGH);
+    digitalWrite(step_pin, HIGH);
+    delay(1);
+    digitalWrite(step_pin, LOW);
+    delay(1);   //delay for reference point - BACK
+   }
+   while (digitalRead(ZERO_POS)){     //MOVE forward until not touching 0 point any more
+    digitalWrite(dir_pin,LOW);
+    digitalWrite(step_pin, HIGH);
+    delay(1);
+    digitalWrite(step_pin, LOW);
+    delay(1);   //delay for reference point - FORWARD    ---0 REFERENCE---
+   }
     numberOfMeasurement=0;
     for(int i=0;i<4;i++){
       composedNumber[i]=0;      //clear all stored readings
