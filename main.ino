@@ -206,7 +206,7 @@ void loop() {
 #endif        
     for (int i=0;i<4;i++) {
       if(i>0)
-        targetPos[i]-=CLEAR_20CM;
+        targetPos[i]-=2.666;
       while (targetPos[i]>0 && targetPos[i]<MAX_NUMBER && !digitalRead(ZERO_POS) && currentPos!=targetPos[i]) {
 #if SERIAL_ENABLED
         Serial.print(currentPos);
