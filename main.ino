@@ -5,9 +5,9 @@
 #define DEL_KEY 42
 #define NOT_PRESSED_THRESHOLD 25
 #define NO_KEY_PRESSED 255
-#define SERIAL_ENABLED 0
+#define SERIAL_ENABLED 1
 #define ZERO_POS 2//pin punct 0 
-#define CLEAR_20CMc
+#define CLEAR_20CM 2666
 #define SAMPLES_NUMBER 5
 int keypressed = 0;
 int keyboardPin = 6;    // Analog input pin that the keypad is attached to 0 la test ... 7 pe masina 
