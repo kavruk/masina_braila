@@ -5,7 +5,7 @@
 #define DEL_KEY 42
 #define NOT_PRESSED_THRESHOLD 25
 #define NO_KEY_PRESSED 255
-#define SERIAL_ENABLED 1
+#define SERIAL_ENABLED 0
 #define ZERO_POS 2//pin punct 0 
 #define CLEAR_20CMc
 #define SAMPLES_NUMBER 5
@@ -13,6 +13,7 @@ int keypressed = 0;
 int keyboardPin = 0;    // Analog input pin that the keypad is attached to 0 la test ... 7 pe masina 
 int keyboardValue = 0;   // value read from the keyboard
 int composedNumber[4];
+int targetPos[4];
 int numberOfMeasurement=0;
 #define CUT_ENGAGED 3
 #define CUT_EXECUTED 4
@@ -24,7 +25,7 @@ LiquidCrystal lcd(11, 12, A2, A3, A4, A5); /// 11, 12 pt test  a1 , a2 pe masina
 #define step_pin 9 // Pin 3 connected to Steps pin on EasyDriver
 #define dir_pin 10   // Pin 2 connected to Direction pin
 #define SLEEP 7     // Pin 7 connected to SLEEP pin
-#define DELAY_TIME 8   // 1 pe masina .....8 pt test 
+#define DELAY_TIME 2   // 1 pe masina .....8 pt test 
 int currentPos=0;
 
 //serial
@@ -81,8 +82,10 @@ void setup() {
   lcd.begin(20, 4);
   lcd.setCursor(0, 0);
   lcd.blink();
-  for (int i=0;i<4;i++)
+  for (int i=0;i<4;i++){
     composedNumber[i]=0;
+    targetPos[i]=0;
+  }
 }
 void readkeyboard() {
   keyboardValue = analogRead(keyboardPin); // read the value (0-1023)
@@ -118,6 +121,7 @@ void readkeyboard() {
 #endif
      }
      lcd.setCursor(0,numberOfMeasurement);
+     targetPos[numberOfMeasurement]=composedNumber[numberOfMeasurement]-2550*1.333;
      lcd.print(composedNumber[numberOfMeasurement]);
 #if SERIAL_ENABLED
       Serial.println(composedNumber[numberOfMeasurement]);
@@ -132,6 +136,8 @@ void readkeyboard() {
         Serial.print("Error: Number smaller than ");
         Serial.println(MIN_NUMBER);
 #endif
+        composedNumber[numberOfMeasurement]=0;
+        targetPos[numberOfMeasurement]=0;
         lcd.setCursor(0,numberOfMeasurement);
         lcd.print("Numar prea mic");
         delay(500);
@@ -148,6 +154,7 @@ void readkeyboard() {
         numberOfMeasurement=0;
         for(int i=0;i<4;i++){
           composedNumber[i]=0;      //clear all stored readings
+          targetPos[i]=0;
           lcd.clear();
          lcd.setCursor(0,0);
         }
@@ -180,6 +187,7 @@ void loop() {
     if (readLen != 0){
       // convert the ascii string number into correct binary form
       composedNumber[numberOfMeasurement] = strToInt(buffer, readLen);
+      targetPos[numberOfMeasurement]=(composedNumber[numberOfMeasurement]-2550)*1.3333;
       // notify sender of the entered value
       Serial.print("Entered value: ");
       Serial.println(composedNumber[numberOfMeasurement]);
@@ -197,7 +205,7 @@ void loop() {
     Serial.println("4 measurements entered");
 #endif        
     for (int i=0;i<4;i++) {
-      while (composedNumber[i]>0 && composedNumber[i]<MAX_NUMBER && !digitalRead(ZERO_POS) && currentPos!=composedNumber[i]) {
+      while (targetPos[i]>0 && targetPos[i]<MAX_NUMBER && !digitalRead(ZERO_POS) && currentPos!=targetPos[i]) {
 #if SERIAL_ENABLED
         Serial.print(currentPos);
         Serial.print(":");
@@ -205,7 +213,7 @@ void loop() {
         Serial.println(digitalRead(CUT_ENGAGED));
         Serial.println(digitalRead(CUT_EXECUTED));
 #endif 
-        if (currentPos>composedNumber[i]) {
+        if (currentPos>targetPos[i]) {
           digitalWrite(dir_pin, HIGH);  // (HIGH = anti-clockwise / LOW = clockwise)
           digitalWrite(step_pin, HIGH);
           // delay(1);
@@ -214,7 +222,7 @@ void loop() {
           for (int i=0;i<DELAY_TIME;i++) analogRead(A6);
             currentPos--;
         }
-        if (currentPos<composedNumber[i]) {
+        if (currentPos<targetPos[i]) {
           digitalWrite(dir_pin, LOW);  // (HIGH = anti-clockwise / LOW = clockwise)
           digitalWrite(step_pin, HIGH);
           //delay(1);
@@ -248,6 +256,7 @@ void loop() {
     numberOfMeasurement=0;
     for(int i=0;i<4;i++){
       composedNumber[i]=0;      //clear all stored readings
+      targetPos[i]=0;
     }
   }
 }
@@ -256,4 +265,5 @@ void deleteRow(){
   lcd.print("              ");
   lcd.setCursor(0,numberOfMeasurement);
   composedNumber[numberOfMeasurement]=0;
+  targetPos[numberOfMeasurement]=0;
 }
