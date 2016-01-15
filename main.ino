@@ -238,7 +238,7 @@ void loop() {
       while(digitalRead(CUT_ENGAGED)==1);
       while(digitalRead(CUT_EXECUTED)==0);
       while(digitalRead(CUT_ENGAGED)==1);
-      delay(5000);
+      delay(3000);
       //move forward 20cm
       digitalWrite(dir_pin, LOW);  // (HIGH = anti-clockwise / LOW = clockwise)
       for (int i=0;i<2666;i++){
@@ -249,7 +249,7 @@ void loop() {
       }   
       lcd.setCursor(7,i);
       lcd.print("ia bagheta");
-      delay(5000);
+      delay(3000);
       lcd.setCursor(7,i);
       lcd.print("terminat  ");
     }
