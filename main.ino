@@ -205,6 +205,8 @@ void loop() {
     Serial.println("4 measurements entered");
 #endif        
     for (int i=0;i<4;i++) {
+      if(i>0)
+        targetPos[i]-=CLEAR_20CM;
       while (targetPos[i]>0 && targetPos[i]<MAX_NUMBER && !digitalRead(ZERO_POS) && currentPos!=targetPos[i]) {
 #if SERIAL_ENABLED
         Serial.print(currentPos);
@@ -238,13 +240,13 @@ void loop() {
       while(digitalRead(CUT_ENGAGED)==1);
       delay(5000);
       //move forward 20cm
-//      digitalWrite(dir_pin, LOW);  // (HIGH = anti-clockwise / LOW = clockwise)
-//      for (int i=0;i<CLEAR_20CM;i++){
-//        digitalWrite(step_pin, HIGH);
-//        delay(1);
-//        digitalWrite(step_pin, LOW);
-//        delay(1);
-//      }   
+      digitalWrite(dir_pin, LOW);  // (HIGH = anti-clockwise / LOW = clockwise)
+      for (int i=0;i<2666;i++){
+        digitalWrite(step_pin, HIGH);
+        delay(1);
+        digitalWrite(step_pin, LOW);
+        delay(1);
+      }   
       lcd.setCursor(7,i);
       lcd.print("ia bagheta");
       delay(5000);
