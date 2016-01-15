@@ -273,6 +273,7 @@ void loop() {
     for (int i=0;i<DELAY_TIME;i++) 
             analogRead(A7);   //delay for reference point - FORWARD    ---0 REFERENCE---
    }
+   currentPos=0;
     numberOfMeasurement=0;
     for(int i=0;i<4;i++){
       composedNumber[i]=0;      //clear all stored readings
