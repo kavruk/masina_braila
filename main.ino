@@ -5,7 +5,7 @@
 #define DEL_KEY 42
 #define NOT_PRESSED_THRESHOLD 25
 #define NO_KEY_PRESSED 255
-#define SERIAL_ENABLED 0
+#define SERIAL_ENABLED 1
 #define ZERO_POS 2//pin punct 0 
 #define CLEAR_20CMc
 #define SAMPLES_NUMBER 5
@@ -20,7 +20,7 @@ int numberOfMeasurement=0;
 #define CLEAR_20CM 2000
 //display
 #include <LiquidCrystal.h>
-LiquidCrystal lcd(11, 12, A2, A3, A4, A5); /// 11, 12 pt test  a1 , a2 pe masina 
+LiquidCrystal lcd(A0, A1, A2, A3, A4, A5); /// 11, 12 pt test  a1 , a2 pe masina 
 //motor
 #define step_pin 9 // Pin 3 connected to Steps pin on EasyDriver
 #define dir_pin 10   // Pin 2 connected to Direction pin
@@ -109,7 +109,6 @@ void readkeyboard() {
   if ((keyboardValue >750) && (keyboardValue < 770)){keypressed = 9;}
   if ((keyboardValue >870) && (keyboardValue < 890)){keypressed = 6;}
   if ((keyboardValue >1010) && (keyboardValue < 1024)){keypressed = 3;}
-  Serial.println(keyboardValue);
   if (keypressed>=0&&keypressed<=9) {     //create multi char number from key presses
     int temp = composedNumber[numberOfMeasurement];
     composedNumber[numberOfMeasurement]*=10;
