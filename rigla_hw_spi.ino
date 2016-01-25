@@ -6,7 +6,7 @@
 
 int readStuff(void) {
   SPI.beginTransaction(SPISettings(12000000, MSBFIRST, SPI_MODE0));  // gain control of SPI bus
-  digitalWrite(SLAVESELECT, HIGH);         // assert chip select
+  digitalWrite(SLAVESELECT, LOW);         // assert chip select
   SPI.transfer(0x74);            // send 16 bit command
   SPI.transfer(0xA2);
   byte b1 = SPI.transfer(0);     // read 16 bits of data
