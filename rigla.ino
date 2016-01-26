@@ -12,7 +12,7 @@ void setup() {
 
 void loop() {
   if (7==full){
-    Serial.println(spiVal);
+    Serial.println(spiVal,HEX);
     full=0;
     spiVal=0;
   }
