@@ -7,7 +7,7 @@ void setup() {
   Serial.begin(9600);
   pinMode(CLOCK, INPUT);
   pinMode(MOSI, INPUT);
-  attachInterrupt(0, read, CHANGE);
+  attachInterrupt(CLOCK, read, CHANGE);
 }
 
 void loop() {
