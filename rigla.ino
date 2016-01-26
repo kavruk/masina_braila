@@ -1,4 +1,4 @@
-#include <EnableInterrupt.h>
+//#include <EnableInterrupt.h>
 #define CLOCK 0
 #define MOSI 11
 byte full = 0;
@@ -7,7 +7,7 @@ void setup() {
   Serial.begin(115200);
   pinMode(CLOCK, INPUT);
   pinMode(MOSI, INPUT);
-  enableInterrupt(digitalPinToInterrupt(CLOCK), read, CHANGE);
+  attachInterrupt(digitalPinToInterrupt(CLOCK), read, CHANGE);
 }
 
 void loop() {
