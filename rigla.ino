@@ -11,10 +11,14 @@ void setup() {
 }
 
 void loop() {
+  if (7==full){
     Serial.println(spiVal);
+    full=0;
+  }
 }
 
 void read() {
-  //spiVal |= (spiVal << 1) + digitalRead(MOSI);
-  spiVal=17;
+  spiVal |= (spiVal << 1) + digitalRead(MOSI);
+  //spiVal=17;
+  full++;
 }
