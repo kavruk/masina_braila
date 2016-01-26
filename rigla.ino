@@ -15,7 +15,7 @@ void setup() {
 void loop() {
   if (8==full){
     pak++;
-    if ((6<pak)&&(17>pak)){
+    if ((6<pak)&&(16>pak)){
       sendBuffer[pak-5]=spiVal;
     }
     full=0;
