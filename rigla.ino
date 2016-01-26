@@ -20,6 +20,7 @@ void loop() {
     }
     full=0;
     spiVal=0;
+    Serial.println(pak);
   }
   if (20==pak){
     for (int i=0;i<10;i++)
@@ -29,6 +30,7 @@ void loop() {
     pak=0;
   }
 }
+
 void read() {
   if (digitalRead(MOSI))
     spiVal = (spiVal << 1) + 1;
