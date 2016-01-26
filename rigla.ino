@@ -3,6 +3,7 @@
 #define MOSI 11
 byte full = 0;
 byte pak=0;
+byte sendBuffer[10]
 volatile byte spiVal = 0;
 void setup() {
   Serial.begin(9600);
@@ -13,11 +14,13 @@ void setup() {
 
 void loop() {
   if (8==full){
-    Serial.print(spiVal,HEX);
-    Serial.print(" ");
+    pak++;
+    if ((5<pak)&&(15>pak)){
+      sendBuffer[pak-5]=spiVal;
+      Serial.print(sendBuffer[pak-5]);
+    }
     full=0;
     spiVal=0;
-    pak++;
   }
   if (20==pak){
     Serial.println();
