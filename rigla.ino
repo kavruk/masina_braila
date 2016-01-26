@@ -2,6 +2,7 @@
 #define CLOCK 0
 #define MOSI 11
 byte full = 0;
+byte pak=0;
 volatile byte spiVal = 0;
 void setup() {
   Serial.begin(9600);
@@ -12,9 +13,15 @@ void setup() {
 
 void loop() {
   if (7==full){
-    Serial.println(spiVal,HEX);
+    Serial.print(spiVal,HEX);
+    Serial.print(" ");
     full=0;
     spiVal=0;
+    pak++;
+  }
+  if (19==pak){
+    Serial.println();
+    pak=0;
   }
 }
 
