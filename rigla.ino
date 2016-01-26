@@ -14,6 +14,7 @@ void loop() {
   if (7==full){
     Serial.println(spiVal);
     full=0;
+    spiVal=0;
   }
 }
 
