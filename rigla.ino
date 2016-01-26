@@ -10,7 +10,8 @@ void setup() {
 }
 
 void loop() {
-  if (full != 0) {
+  //if (full != 0) 
+  {
     full = 0;
     Serial.println(spiVal);
   }
