@@ -5,6 +5,13 @@ byte full = 0;
 byte pak=0;
 char sendBuffer[10];
 volatile byte spiVal = 0;
+void read() {
+  if (digitalRead(MOSI))
+    spiVal = (spiVal << 1) + 1;
+  else
+    spiVal = (spiVal << 1);
+  full++;
+}
 void setup() {
   Serial.begin(9600);
   pinMode(CLOCK, INPUT);
@@ -15,26 +22,20 @@ void setup() {
 void loop() {
   if (8==full){
     pak++;
-    if ((6<pak)&&(16>pak)){
+    /*if ((6<pak)&&(16>pak)){
       sendBuffer[pak-5]=spiVal;
     }
     full=0;
-    spiVal=0;
+    spiVal=0;*/
     Serial.println(pak);
   }
   if (20==pak){
-    for (int i=0;i<10;i++)
+    /*for (int i=0;i<10;i++)
       Serial.print(sendBuffer[i]);
     Serial.println("N");
     Serial.println(atoi(sendBuffer));
-    pak=0;
+    pak=0;*/
   }
 }
 
-void read() {
-  if (digitalRead(MOSI))
-    spiVal = (spiVal << 1) + 1;
-  else
-    spiVal = (spiVal << 1);
-  full++;
-}
+
