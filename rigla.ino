@@ -10,13 +10,14 @@ void setup() {
 }
 
 void loop() {
-  if (full == 7) {
+  if (full != 0) {
     full = 0;
     Serial.println(spiVal);
   }
 }
 
 void read() {
-  spiVal |= (spiVal << 1) + digitalRead(MOSI);
+  //spiVal |= (spiVal << 1) + digitalRead(MOSI);
+  spiVal=random(255);
   full++;
 }
