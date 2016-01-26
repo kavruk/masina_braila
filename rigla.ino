@@ -6,7 +6,7 @@ void setup() {
   Serial.begin(115200);
   pinMode(CLOCK, INPUT);
   pinMode(MOSI, INPUT);
-  attachInterrupt(digitalPinToInterrupt(CLOCK), read, FALLING);
+  attachInterrupt(digitalPinToInterrupt(CLOCK), read, CHANGE);
 }
 
 void loop() {
@@ -19,6 +19,6 @@ void loop() {
 
 void read() {
   //spiVal |= (spiVal << 1) + digitalRead(MOSI);
-  spiVal=random(255);
+  spiVal=17;
   full++;
 }
