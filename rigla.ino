@@ -29,7 +29,6 @@ void loop() {
     pak=0;
   }
 }
-
 void read() {
   if (digitalRead(MOSI))
     spiVal = (spiVal << 1) + 1;
