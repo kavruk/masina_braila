@@ -3,7 +3,7 @@
 #define MOSI 11
 byte full = 0;
 byte pak=0;
-byte sendBuffer[10]
+char sendBuffer[10];
 volatile byte spiVal = 0;
 void setup() {
   Serial.begin(9600);
