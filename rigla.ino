@@ -18,6 +18,6 @@ void loop() {
 }
 
 void read() {
-  spiVal |= (spiVal << 1) + digitalRead(MOSI);
+  spiVal = (spiVal << 1) + digitalRead(MOSI);
   full++;
 }
