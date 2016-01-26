@@ -13,6 +13,8 @@ void setup (void)
 
   // turn on SPI in slave mode
   SPCR |= _BV(SPE);
+  SPCR |= _BV(SPIE);
+  SPCR |= _BV(CPHA);
 
   // get ready for an interrupt 
   pos = 0;   // buffer empty
