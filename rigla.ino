@@ -24,8 +24,7 @@ void loop() {
   if (20==pak){
     for (int i=0;i<10;i++)
       Serial.print(sendBuffer[i]);
-    Serial.println();
-      
+    Serial.println("N");
     pak=0;
   }
 }
