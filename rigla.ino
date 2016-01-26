@@ -7,7 +7,7 @@ void setup() {
   Serial.begin(9600);
   pinMode(CLOCK, INPUT);
   pinMode(MOSI, INPUT);
-  attachInterrupt(digitalPinToInterrupt(CLOCK), read, CHANGE);
+  attachInterrupt(0, read, CHANGE);
 }
 
 void loop() {
