@@ -17,13 +17,15 @@ void loop() {
     pak++;
     if ((6<pak)&&(17>pak)){
       sendBuffer[pak-5]=spiVal;
-      Serial.print(sendBuffer[pak-5]);
     }
     full=0;
     spiVal=0;
   }
   if (20==pak){
+    for (int i=0;i<10;i++)
+      Serial.print(sendBuffer[i]);
     Serial.println();
+      
     pak=0;
   }
 }
