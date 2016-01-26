@@ -19,6 +19,9 @@ void loop() {
 }
 
 void read() {
-  spiVal = (spiVal << 1) + digitalRead(MOSI);
+  if (digitalRead(MOSI))
+    spiVal = (spiVal << 1) + 1;
+  else
+    spiVal = (spiVal << 1);
   full++;
 }
