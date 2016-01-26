@@ -7,7 +7,7 @@ void setup() {
   Serial.begin(9600);
   pinMode(CLOCK, INPUT);
   pinMode(MOSI, INPUT);
-  attachInterrupt(CLOCK, read, CHANGE);
+  attachInterrupt(CLOCK, read, FALLING);
 }
 
 void loop() {
@@ -19,6 +19,5 @@ void loop() {
 
 void read() {
   spiVal |= (spiVal << 1) + digitalRead(MOSI);
-  //spiVal=17;
   full++;
 }
