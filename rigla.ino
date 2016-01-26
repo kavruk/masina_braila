@@ -12,14 +12,14 @@ void setup() {
 }
 
 void loop() {
-  if (7==full){
+  if (8==full){
     Serial.print(spiVal,HEX);
     Serial.print(" ");
     full=0;
     spiVal=0;
     pak++;
   }
-  if (19==pak){
+  if (20==pak){
     Serial.println();
     pak=0;
   }
