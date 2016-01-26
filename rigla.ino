@@ -1,9 +1,8 @@
-//https://dl.bintray.com/greygnome/generic/enableinterrupt-0.9.4.zip
 #include <EnableInterrupt.h>
-#define CLOCK 13
+#define CLOCK 0
 #define MOSI 11
 byte full = 0;
-byte spiVal = 0;
+volatile byte spiVal = 0;
 void setup() {
   Serial.begin(115200);
   pinMode(CLOCK, INPUT);
