@@ -25,6 +25,7 @@ void loop() {
     for (int i=0;i<10;i++)
       Serial.print(sendBuffer[i]);
     Serial.println("N");
+    Serial.println(atoi(sendBuffer));
     pak=0;
   }
 }
