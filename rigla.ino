@@ -14,7 +14,7 @@ void setup() {
   Serial.begin(9600);
   pinMode(CLOCK, INPUT);
   pinMode(MOSI, INPUT);
-  pinMode(EXTENSION,INPUT);
+  pinMode(EXTENSION, INPUT);
   attachInterrupt(CLOCK, read, FALLING);
 }
 
@@ -23,19 +23,18 @@ void loop() {
     pak++;
     full = 0;
 #if DEBUG
-      Serial.print(pak);
-      Serial.print(":");
-      Serial.print(spiVal);
-      Serial.print(" ");
+    Serial.print(pak);
+    Serial.print(":");
+    Serial.print(spiVal);
+    Serial.print(" ");
 #endif
-    
-    if ((pak > 6) && (pak < 17)) {
-      sendBuffer[pak - 7] = spiVal;
-    }
+    //if ((pak > 6) && (pak < 17)) {
+    //  sendBuffer[pak - 7] = spiVal;
+    //}
   }
   if (20 == pak) {
     //detachInterrupt(CLOCK);
-    Serial.println(atoi(sendBuffer)+10000*digitalRead(EXTENSION));
+    //Serial.println(atoi(sendBuffer) + 10000 * digitalRead(EXTENSION));
     Serial.println(full);
     pak = 0;
   }
