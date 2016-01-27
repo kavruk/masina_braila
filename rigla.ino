@@ -35,12 +35,13 @@ void loop() {
     }
   }
   if (20 == pak) {
-#if DEBUG
-    Serial.println();
-#endif
+
     if (send == 2) {
+#if DEBUG
+      Serial.println();
+#endif
       Serial.println(atoi(sendBuffer) + 10000 * digitalRead(EXTENSION));
-      send = false;
+      send = 0;
     }
     pak = 0;
   }
