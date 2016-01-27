@@ -22,6 +22,8 @@ void loop() {
     if ((pak>4)&&(pak<15)){
       sendBuffer[pak-5]=spiVal;
     }
+    Serial.print(pak-5);
+    Serial.print(":");
     Serial.print(spiVal,HEX);
     Serial.print(":");
     Serial.print(sendBuffer[pak-5],HEX);
