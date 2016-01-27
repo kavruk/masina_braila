@@ -11,7 +11,7 @@ void read() {
   full++;
 }
 void setup() {
-  Serial.begin(9600);
+  Serial.begin(115200);
   pinMode(CLOCK, INPUT);
   pinMode(MOSI, INPUT);
   pinMode(EXTENSION, INPUT);
@@ -38,5 +38,4 @@ void loop() {
     Serial.println(full);
     pak = 0;
   }
-
 }
