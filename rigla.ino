@@ -1,4 +1,3 @@
-//#include <EnableInterrupt.h>
 #define CLOCK 0
 #define MOSI 11
 byte full = 0;
@@ -27,7 +26,9 @@ void loop() {
     }
     full=0;
     spiVal=0;*/
-    Serial.println(pak);
+    //Serial.println(pak);
+    Serial.print(pak);
+    Serial.print(" ");
   }
   if (20==pak){
     /*for (int i=0;i<10;i++)
@@ -35,7 +36,6 @@ void loop() {
     Serial.println("N");
     Serial.println(atoi(sendBuffer));
     pak=0;*/
+    Serial.println();
   }
 }
-
-
