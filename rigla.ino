@@ -33,7 +33,7 @@ void loop() {
   }
   if (20 == pak) {
     //detachInterrupt(CLOCK);
-    //if (142 == sendBuffer[19])
+    if (142 == sendBuffer[19])
       Serial.println(atoi(sendBuffer) + 10000 * digitalRead(EXTENSION));
     pak = 0;
   }
