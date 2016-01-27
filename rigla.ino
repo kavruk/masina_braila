@@ -17,7 +17,6 @@ void setup() {
   pinMode(EXTENSION, INPUT);
   attachInterrupt(CLOCK, read, FALLING);
 }
-
 void loop() {
   if (8 == full) {
     pak++;
@@ -34,8 +33,8 @@ void loop() {
   }
   if (20 == pak) {
     //detachInterrupt(CLOCK);
-    Serial.println(atoi(sendBuffer) + 10000 * digitalRead(EXTENSION));
-    Serial.println(full);
+    if (246 == sendBuffer[19])
+      Serial.println(atoi(sendBuffer) + 10000 * digitalRead(EXTENSION));
     pak = 0;
   }
 }
