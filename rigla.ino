@@ -6,6 +6,7 @@ byte full = 0;
 byte pak = 0;
 char sendBuffer[10];
 volatile byte spiVal = 0;
+bool send = false;
 void read() {
   spiVal = (spiVal << 1) + digitalRead(MOSI);
   full++;
@@ -20,6 +21,8 @@ void setup() {
 void loop() {
   if (8 == full) {
     pak++;
+    if ((pak == 19) && (spiVal == 142))
+      send = true;
     full = 0;
 #if DEBUG
     Serial.print(pak);
@@ -32,9 +35,13 @@ void loop() {
     }
   }
   if (20 == pak) {
+#if DEBUG
     Serial.println();
-    if (142 == sendBuffer[19])
+#endif
+    if (send) {
       Serial.println(atoi(sendBuffer) + 10000 * digitalRead(EXTENSION));
+      send = false;
+    }
     pak = 0;
   }
 }
