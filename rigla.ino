@@ -19,7 +19,7 @@ void loop() {
   if (8 == full) {
     pak++;
     full = 0;
-    if ((pak > 6) && (pak < 18)) {
+    if ((pak > 6) && (pak < 17)) {
       sendBuffer[pak - 7] = spiVal;
       Serial.print(pak - 7);
       Serial.print(":");
