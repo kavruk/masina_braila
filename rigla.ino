@@ -35,8 +35,9 @@ void loop() {
       Serial.println("N");
       Serial.println(atoi(sendBuffer));
       pak=0;*/
-    Serial.println(atoi(sendBuffer));
     Serial.println();
+    Serial.println(atoi(sendBuffer));
+
     pak = 0;
   }
 }
