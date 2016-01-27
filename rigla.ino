@@ -41,6 +41,7 @@ void loop() {
     if (send == 2) {
       Serial.println(atoi(sendBuffer) + 10000 * digitalRead(EXTENSION));
       send = false;
+    }
     pak = 0;
   }
 }
