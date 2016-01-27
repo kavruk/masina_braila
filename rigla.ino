@@ -21,12 +21,12 @@ void loop() {
     full = 0;
     if ((pak > 4) && (pak < 15)) {
       sendBuffer[pak - 5] = spiVal;
-//      Serial.print(pak - 5);
-//      Serial.print(":");
-//      Serial.print(spiVal, HEX);
-//      Serial.print(":");
-//      Serial.print(sendBuffer[pak - 5], HEX);
-//      Serial.print(" ");
+      Serial.print(pak - 5);
+      Serial.print(":");
+      Serial.print(spiVal, HEX);
+      Serial.print(":");
+      Serial.print(sendBuffer[pak - 5]);
+      Serial.print(" ");
     }
   }
   if (20 == pak) {
@@ -35,7 +35,7 @@ void loop() {
       Serial.println("N");
       Serial.println(atoi(sendBuffer));
       pak=0;*/
-    Serial.println(atoi(sendBuffer));
+    //Serial.println(atoi(sendBuffer));
     Serial.println();
     pak = 0;
   }
