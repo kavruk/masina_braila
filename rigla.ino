@@ -5,10 +5,7 @@ byte pak=0;
 char sendBuffer[10];
 volatile byte spiVal = 0;
 void read() {
-  if (digitalRead(MOSI))
-    spiVal = (spiVal << 1) + 1;
-  else
-    spiVal = (spiVal << 1);
+  spiVal = (spiVal << 1) + digitalRead(MOSI);
   full++;
 }
 void setup() {
@@ -21,6 +18,7 @@ void setup() {
 void loop() {
   if (8==full){
     pak++;
+    full=0;
     /*if ((6<pak)&&(16>pak)){
       sendBuffer[pak-5]=spiVal;
     }
