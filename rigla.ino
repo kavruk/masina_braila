@@ -1,6 +1,6 @@
 #define CLOCK 0
 #define MOSI 11
-#define DEBUG 1
+#define DEBUG 0
 #define EXTENSION 13
 byte full = 0;
 byte pak = 0;
@@ -33,7 +33,7 @@ void loop() {
   }
   if (20 == pak) {
     //detachInterrupt(CLOCK);
-    if (246 == sendBuffer[19])
+    if (142 == sendBuffer[19])
       Serial.println(atoi(sendBuffer) + 10000 * digitalRead(EXTENSION));
     pak = 0;
   }
