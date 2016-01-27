@@ -24,7 +24,7 @@ void loop() {
     full = 0;
     if ((pak > 6) && (pak < 17)) {
       sendBuffer[pak - 7] = spiVal;
-#ifdef DEBUG
+#if DEBUG
       Serial.print(pak - 7);
       Serial.print(":");
       Serial.print(spiVal, HEX);
