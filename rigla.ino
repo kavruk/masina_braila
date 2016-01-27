@@ -1,6 +1,6 @@
 #define CLOCK 0
 #define MOSI 11
-#define DEBUG 0
+#define DEBUG 1
 #define EXTENSION 13
 byte full = 0;
 byte pak = 0;
