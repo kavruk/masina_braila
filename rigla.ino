@@ -20,12 +20,12 @@ void loop() {
     pak++;
     full = 0;
     if ((pak > 6) && (pak < 17)) {
-      sendBuffer[pak - 5] = spiVal;
-      Serial.print(pak - 5);
+      sendBuffer[pak - 7] = spiVal;
+      Serial.print(pak - 7);
       Serial.print(":");
       Serial.print(spiVal, HEX);
       Serial.print(":");
-      Serial.print(sendBuffer[pak - 5]);
+      Serial.print(sendBuffer[pak - 7]);
       Serial.print(" ");
     }
   }
