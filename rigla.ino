@@ -1,8 +1,8 @@
 #define CLOCK 0
 #define MOSI 11
 byte full = 0;
-byte pak=0;
-byte sendBuffer[10];
+byte pak = 0;
+char sendBuffer[10];
 volatile byte spiVal = 0;
 void read() {
   spiVal = (spiVal << 1) + digitalRead(MOSI);
@@ -16,27 +16,27 @@ void setup() {
 }
 
 void loop() {
-  if (8==full){
+  if (8 == full) {
     pak++;
-    full=0;
-    if ((pak>4)&&(pak<15)){
-      sendBuffer[pak-5]=spiVal;
-    
-    Serial.print(pak-5);
-    Serial.print(":");
-    Serial.print(spiVal,HEX);
-    Serial.print(":");
-    Serial.print(sendBuffer[pak-5],HEX);
-    Serial.print(" ");
+    full = 0;
+    if ((pak > 4) && (pak < 15)) {
+      sendBuffer[pak - 5] = spiVal;
+//      Serial.print(pak - 5);
+//      Serial.print(":");
+//      Serial.print(spiVal, HEX);
+//      Serial.print(":");
+//      Serial.print(sendBuffer[pak - 5], HEX);
+//      Serial.print(" ");
     }
   }
-  if (20==pak){
+  if (20 == pak) {
     /*for (int i=0;i<10;i++)
       Serial.print(sendBuffer[i]);
-    Serial.println("N");
+      Serial.println("N");
+      Serial.println(atoi(sendBuffer));
+      pak=0;*/
     Serial.println(atoi(sendBuffer));
-    pak=0;*/
     Serial.println();
-    pak=0;
+    pak = 0;
   }
 }
