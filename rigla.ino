@@ -2,7 +2,7 @@
 #define MOSI 11
 byte full = 0;
 byte pak=0;
-char sendBuffer[10];
+byte sendBuffer[10];
 volatile byte spiVal = 0;
 void read() {
   spiVal = (spiVal << 1) + digitalRead(MOSI);
