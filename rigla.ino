@@ -19,7 +19,7 @@ void loop() {
   if (8==full){
     pak++;
     full=0;
-    if ((6<pak)&&(16>pak)){
+    if ((pak>4)&&(pak<15)){
       sendBuffer[pak-5]=spiVal;
     }
     Serial.print(sendBuffer[pak-5],HEX);
