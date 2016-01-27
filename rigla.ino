@@ -19,7 +19,7 @@ void loop() {
   if (8 == full) {
     pak++;
     full = 0;
-    if ((pak > 6) && (pak < 17)) {
+    if ((pak > 6) && (pak < 18)) {
       sendBuffer[pak - 7] = spiVal;
       Serial.print(pak - 7);
       Serial.print(":");
@@ -35,7 +35,7 @@ void loop() {
       Serial.println("N");
       Serial.println(atoi(sendBuffer));
       pak=0;*/
-    //Serial.println(atoi(sendBuffer));
+    Serial.println(atoi(sendBuffer));
     Serial.println();
     pak = 0;
   }
