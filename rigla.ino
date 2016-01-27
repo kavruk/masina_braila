@@ -21,14 +21,14 @@ void loop() {
     full=0;
     if ((pak>4)&&(pak<15)){
       sendBuffer[pak-5]=spiVal;
-    }
+    
     Serial.print(pak-5);
     Serial.print(":");
     Serial.print(spiVal,HEX);
     Serial.print(":");
     Serial.print(sendBuffer[pak-5],HEX);
     Serial.print(" ");
-    
+    }
   }
   if (20==pak){
     /*for (int i=0;i<10;i++)
