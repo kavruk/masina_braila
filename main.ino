@@ -5,9 +5,9 @@
 #define DEL_KEY 42
 #define NOT_PRESSED_THRESHOLD 25
 #define NO_KEY_PRESSED 255
-#define SERIAL_ENABLED
+#define SERIAL_ENABLED 1
 #define ZERO_POS 2//pin punct 0 
-#define CLEAR_20CM 2666
+//#define CLEAR_20CM 2666
 #define SAMPLES_NUMBER 5
 int keypressed = 0;
 int keyboardPin = 6;    // Analog input pin that the keypad is attached to 0 la test ... 7 pe masina
@@ -17,7 +17,7 @@ int targetPos[4];
 int numberOfMeasurement = 0;
 #define CUT_ENGAGED 12
 #define CUT_EXECUTED 13
-#define CLEAR_20CM 2000
+//#define CLEAR_20CM 2000
 //display
 #include <LiquidCrystal.h>
 LiquidCrystal lcd(A0, A1, A2, A3, A4, A5); /// 11, 12 pt test  a1 , a2 pe masina
