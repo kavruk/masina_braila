@@ -233,11 +233,11 @@ void loop() {
         targetPos[i] -= 2666 * i;
       while (targetPos[i] < MAX_NUMBER && !digitalRead(ZERO_POS) && currentPos != targetPos[i]) { //removed zero condition
 #if SERIAL_ENABLED
-        Serial.print(currentPos);
-        Serial.print(":");
-        Serial.println(composedNumber[i]);
-        Serial.println(digitalRead(CUT_ENGAGED));
-        Serial.println(digitalRead(CUT_EXECUTED));
+        //Serial.print(currentPos);
+        //Serial.print(":");
+        //Serial.println(composedNumber[i]);
+        //Serial.println(digitalRead(CUT_ENGAGED));
+        //Serial.println(digitalRead(CUT_EXECUTED));
 #endif
         if (currentPos > targetPos[i]) {
           digitalWrite(dir_pin, HIGH);  // (HIGH = anti-clockwise / LOW = clockwise)
