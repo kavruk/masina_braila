@@ -21,16 +21,14 @@ void setup() {
 void loop() {
   if (8 == full) {
     pak++;
-    
     full = 0;
-
     if ((pak > 6) && (pak < 17)) {
       sendBuffer[pak - 7] = spiVal;
-      #if DEBUG
-    Serial.print(pak);
-    Serial.print(":");
-    Serial.print(sendBuffer[pak - 7]);
-    Serial.print(" ");
+#if DEBUG
+      Serial.print(pak);
+      Serial.print(":");
+      Serial.print(sendBuffer[pak - 7]);
+      Serial.print(" ");
 #endif
     }
   }
@@ -41,11 +39,9 @@ void loop() {
     Serial.print("send: ");
     Serial.println(send);
 #endif
-    
     if (send == 2) {
-
       Serial.print(atoi(sendBuffer) + 10000 * digitalRead(EXTENSION));
-      Serial.print(0x0D);
+      Serial.print('\r');
       send = 0;
     }
     pak = 0;
