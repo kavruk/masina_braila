@@ -41,7 +41,7 @@ void loop() {
 #endif
     if (send == 2) {
       //Serial.print(atoi(sendBuffer) + 10000 * digitalRead(EXTENSION));
-      Serial.print(atoi(sendBuffer));
+      Serial.print(atoi(sendBuffer+1));
       Serial.print('\r');
       send = 0;
     }
