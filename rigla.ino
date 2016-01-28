@@ -20,7 +20,7 @@ void setup() {
 }
 void loop() {
   if (8 == full) {
-    pak++;
+    
     send++;
     full = 0;
 
@@ -35,6 +35,7 @@ void loop() {
     }
   }
   if (20 == pak) {
+    pak++;
 #if DEBUG
     Serial.println();
     Serial.print("send: ");
