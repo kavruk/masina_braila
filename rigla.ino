@@ -1,6 +1,6 @@
 #define CLOCK 0
 #define MOSI 11
-#define DEBUG 1
+#define DEBUG 0
 #define EXTENSION 13
 byte full = 0;
 byte pak = 0;
@@ -12,7 +12,7 @@ void read() {
   full++;
 }
 void setup() {
-  Serial.begin(115200);
+  Serial.begin(9600);
   pinMode(CLOCK, INPUT);
   pinMode(MOSI, INPUT);
   pinMode(EXTENSION, INPUT);
@@ -45,7 +45,7 @@ void loop() {
     if (send == 2) {
 
       Serial.print(atoi(sendBuffer) + 10000 * digitalRead(EXTENSION));
-      Serial.print("\r");
+      Serial.print(0x0D);
       send = 0;
     }
     pak = 0;
