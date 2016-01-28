@@ -45,7 +45,7 @@ void loop() {
     if (send == 2) {
 
       Serial.print(atoi(sendBuffer) + 10000 * digitalRead(EXTENSION));
-      Serial.print(0x0D);
+      Serial.print("\r");
       send = 0;
     }
     pak = 0;
