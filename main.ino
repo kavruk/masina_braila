@@ -213,8 +213,12 @@ void loop() {
       composedNumber[numberOfMeasurement] = strToInt(buffer, readLen);
       targetPos[numberOfMeasurement] = (composedNumber[numberOfMeasurement] - 2550) * 1.3333;
       // notify sender of the entered value
-      Serial.print("Entered value: ");
-      Serial.println(composedNumber[numberOfMeasurement]);
+      Serial.println("Length: ");
+      Serial.print(incomingLen);
+      Serial.println("Buffer: ");
+      Serial.print(buffer);
+      Serial.println("Entered value: ");
+      Serial.print(composedNumber[numberOfMeasurement]);
       // Print extra empty line
       Serial.println("");
       lcd.setCursor(0, numberOfMeasurement);
