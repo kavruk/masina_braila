@@ -21,8 +21,7 @@ void setup() {
 void loop() {
   if (8 == full) {
     pak++;
-    if ((pak == 19) && (spiVal == 142))
-      send++;
+    send++;
     full = 0;
 #if DEBUG
     Serial.print(pak);
