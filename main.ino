@@ -78,6 +78,7 @@ void setup() {
 #if SERIAL_ENABLED
   Serial.begin(9600);
   Serial.setTimeout(2000);
+  Serial.println("Starting ... ");
 #endif
   lcd.begin(20, 4);
   lcd.setCursor(0, 0);
@@ -88,7 +89,8 @@ void setup() {
   }
 }
 void readkeyboard() {
-  keyboardValue = analogRead(keyboardPin); // read the value (0-1023)
+//  keyboardValue = analogRead(keyboardPin); // read the value (0-1023)
+keyboardValue=0;
   if (keyboardValue > NOT_PRESSED_THRESHOLD) { //minimum press threshold
     delay(30);           //30ms delay for debounce
     keyboardValue = 0;
@@ -208,16 +210,17 @@ void loop() {
   else {
     // read the data in serial input buffer
     readLen = Serial.readBytes(buffer, incomingLen);
+    
     if (readLen != 0) {
       // convert the ascii string number into correct binary form
-      composedNumber[numberOfMeasurement] = strToInt(buffer, readLen);
+      composedNumber[numberOfMeasurement] = strToInt(buffer, readLen-1);
       targetPos[numberOfMeasurement] = (composedNumber[numberOfMeasurement] - 2550) * 1.3333;
       // notify sender of the entered value
-      Serial.println("Length: ");
-      Serial.print(incomingLen);
-      Serial.println("Buffer: ");
-      Serial.print(buffer);
-      Serial.println("Entered value: ");
+//      Serial.println("Length: ");
+//      Serial.print(incomingLen);
+//      Serial.println("Buffer: ");
+//      Serial.print(buffer);
+//      Serial.println("Entered value: ");
       Serial.print(composedNumber[numberOfMeasurement]);
       // Print extra empty line
       Serial.println("");
