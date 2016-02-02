@@ -61,7 +61,7 @@ void setup() {
   pinMode(SLEEP, OUTPUT);
   digitalWrite(SLEEP, HIGH);  // Wake up EasyDriver
   delay(5);  // Wait for EasyDriver wake up
-  while (!digitalRead(ZERO_POS)) {     //MOVE to zero
+  /*while (!digitalRead(ZERO_POS)) {     //MOVE to zero
     digitalWrite(dir_pin, HIGH);
     digitalWrite(step_pin, HIGH);
     delay(1);
@@ -75,6 +75,7 @@ void setup() {
     digitalWrite(step_pin, LOW);
     delay(1);   //delay for reference point - FORWARD    ---0 REFERENCE---
   }
+  */
 #if SERIAL_ENABLED
   Serial.begin(9600);
   Serial.setTimeout(2000);
